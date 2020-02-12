@@ -1,0 +1,29 @@
+# Conf file created by the LLRF configCreator
+
+eq_conf: 
+
+oper_uid:   -1
+oper_gid:   ${OPERATOR_GID}
+xpert_uid:  0
+xpert_gid:  0
+
+ring_buffer:      10000
+memory_buffer:    500
+
+eq_fct_name:    "${SVR_LOCATION}"
+eq_fct_type:    1
+{
+SVR.NAME:          "${SVR_LOCATION}"
+STS.ONLINE:        0
+FCT_CODE:          1
+SVR.RATE:          1  0  0  0
+SVR.PROGRAMMER:    "C. Kampmeyer"
+SVR.STORE.RATE:    60
+SVR.STORE.AUTO:    10
+SVR.HOST_NAME:     ${HOSTNAME}
+SVR.RPC_NUMBER:    ${RPC_NUMBER}
+SVR.WDADDR:        "${WATCHDOG_ADDRESS}"
+SVR.FACILITY:      "${FACILITY}"
+SVR.DEVICE:        "${DEVICE}"
+SVR.TINERUN:       0
+}

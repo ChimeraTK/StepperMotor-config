@@ -1,0 +1,2 @@
+<configuration>
+  <variable name="cycleTimeMs" type="uint32" value="${CYCLE_TIME_MS}"/>

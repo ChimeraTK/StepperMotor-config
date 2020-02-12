@@ -23,3 +23,9 @@ CMakeLists.txt.user
 # If they are generally useful consider adding them to the 
 # project-template and the merge them in.
 ######################
+*/output
+dynamic-settings
+__pycache__
+backup
+.stationSettings.sh
+testEnvironment

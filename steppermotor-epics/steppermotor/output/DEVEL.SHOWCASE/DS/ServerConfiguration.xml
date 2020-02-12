@@ -1,0 +1,40 @@
+<configuration>
+  <variable name="cycleTimeMs" type="uint32" value="1000"/>
+  <variable name="nMotors" type="uint32" value="2"/>  
+  <variable name="motorDriverType" type="string">
+    <value i="0"  v="MD22"/>
+    <value i="1"  v="MD22"/>
+  </variable>
+  <variable name="motorType" type="string">
+    <value i="0"  v="Basic"/>
+    <value i="1"  v="LinearMotorWithReferenceSwitch"/>
+  </variable>
+  <variable name="motorDriverDeviceName" type="string">
+    <value i="0"  v="MotorDriver1"/>
+    <value i="1"  v="MotorDriver1"/>
+  </variable>
+<variable name="motorDriverModuleName" type="string">
+    <value i="0"  v="MD22.0"/>
+    <value i="1"  v="MD22.0"/>
+  </variable>
+  <variable name="motorDriverId" type="uint32">
+    <value i="0"  v="0"/>
+    <value i="1"  v="1"/>
+  </variable>
+  <variable name="motorDriverConfigFile" type="string">
+    <value i="0"  v="Limes122-MotorDriverCardConfig.xml"/>
+    <value i="1"  v="Limes122-MotorDriverCardConfig.xml"/>
+  </variable>
+  <variable name="userUnitToStepsRatio" type="float">
+    <value i="0"  v="0.0003125"/>
+    <value i="1"  v="0.0003125"/>
+  </variable>
+  <variable name="encoderUnitToStepsRatio" type="double">
+    <value i="0"  v="0.000001"/>
+    <value i="1"  v="0.000001"/>
+  </variable>
+  <variable name="userPositionUnit" type="string">
+    <value i="0"  v="mm"/>
+    <value i="1"  v="mm"/>
+  </variable>
+</configuration>

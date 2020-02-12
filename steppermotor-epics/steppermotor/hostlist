@@ -1,0 +1,8 @@
+# host name                     accelerator     master/slave/remote     list of stations (space separated)
+
+# Development crates
+mskcpuckdev.desy.de             devel           M                       CK
+mskcputechlab201.desy.de        devel.showcase  M                       DS
+
+# MESA Uni Mainz
+mesa-ubuntu.kph.uni-mainz.de    mesa            R                       MOTOR
