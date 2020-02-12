@@ -1,3 +1,10 @@
+# Change these two lines to this when converting to Mako format:
+# (ACCELERATOR,STATION)=INSTANCE_CONFIG
+# FULL_STATION_NAME= ("A" if "${ACCELERATOR}" == "XFEL" else "ACC" if "${ACCELERATOR}" == "FLASH" else "") + STATION
+ACCELERATOR=${"${INSTANCE}".split("/")[0]:eval}
+STATION=${"${INSTANCE}".split("/")[1]:eval}
+FULL_STATION_NAME=${ "A" if "${ACCELERATOR}" == "XFEL" else "ACC" if "${ACCELERATOR}" == "FLASH" else "":eval}${STATION}
+
 SERVERNAME:default=steppermotorserver
 EXECUTABLE_IN_PACKAGE=/export/doocs/server/steppermotorserver/steppermotorserver
 MAKE_EXECUTABLE=initMotorDriverHW.py
