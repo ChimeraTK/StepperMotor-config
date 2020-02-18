@@ -1,7 +1,0 @@
-#foreach MOTOR : ${MOTORS}
-eq_fct_name:    "Motor${MOTOR}"
-eq_fct_type:    13
-{
-NAME:    "Motor${MOTOR}"
-FCT_CODE: 13
-}
