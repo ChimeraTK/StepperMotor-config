@@ -1,2 +1,0 @@
-#foreach MOTOR : ${MOTORS}
-    <value i="${MOTOR_INDEX}"  v="${MOTOR${MOTOR}_MODULENAME}"/>
