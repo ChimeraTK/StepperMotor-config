@@ -1,0 +1,4 @@
+##mako
+% for DRIVER in range(MOTORDRIVERS) :
+${MOTORDRIVER_NAME[DRIVER]}    sdm://./pci:pcieunis${MOTORDRIVER_SLOT[DRIVER]}    ${MAPFILE_BASENAME}${FIRMWARE_REV_MOTDRV}.mapp
+% endfor

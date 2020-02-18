@@ -1,0 +1,50 @@
+##mako
+<configuration><% LEN = len(MOTORS)%>
+  <variable name="cycleTimeMs" type="uint32" value="${CYCLE_TIME_MS}"/>
+  <variable name="nMotors" type="uint32" value="${LEN}"/>  
+  <variable name="motorDriverType" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_DRIVERTYPE[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="motorType" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_TYPE[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="motorDriverDeviceName" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_DRIVER[MOTOR]}"/>
+% endfor
+  </variable>
+<variable name="motorDriverModuleName" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_MODULENAME[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="motorDriverId" type="uint32">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_DRIVERID[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="motorDriverConfigFile" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_MOTORDRIVERCONFIG[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="userUnitToStepsRatio" type="float">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_MOTORSTEPSRATIO[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="encoderUnitToStepsRatio" type="double">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_ENCODERSTEPSRATIO[MOTOR]}"/>
+% endfor
+  </variable>
+  <variable name="userPositionUnit" type="string">
+% for MOTOR in range(0,LEN) :
+    <value i="${MOTOR}"  v="${MOTOR_POSITIONUNIT[0]}"/>
+% endfor
+  </variable>
+</configuration>

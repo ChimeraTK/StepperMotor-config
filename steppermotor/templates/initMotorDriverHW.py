@@ -1,3 +1,4 @@
+##mako
 #!/usr/bin/python3
 
 import mtca4u
