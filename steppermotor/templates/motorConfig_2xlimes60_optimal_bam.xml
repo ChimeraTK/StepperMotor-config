@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<MotorDriverCardConfig>
+	<MotorControlerConfig motorID="0">
+		<Register name="dividersAndMicroStepResolutionData" value="0x3B06" />
+		<Register name="driverControlData" value="0x2" />
+		<Register name="maximumAcceleration" value="0x671" />
+		<Register name="maximumVelocity" value="0x624" />
+		<Register name="proportionalityFactorData" value="0xC309" />
+		<Register name="stallGuardControlData" value="0x10019" />
+		<Register name="chopperControlData" value="0x275" />
+		<Register name="driverConfigData" value="0x40" />
+	</MotorControlerConfig>
+	<MotorControlerConfig motorID="1">
+    <Register name="dividersAndMicroStepResolutionData" value="0x3B06" />
+		<Register name="driverControlData" value="0x2" />
+		<Register name="maximumAcceleration" value="0x671" />
+		<Register name="maximumVelocity" value="0x624" />
+		<Register name="proportionalityFactorData" value="0xC309" />
+		<Register name="stallGuardControlData" value="0x10019" />
+		<Register name="chopperControlData" value="0x275" />
+		<Register name="driverConfigData" value="0x40" />
+	</MotorControlerConfig>
+</MotorDriverCardConfig>

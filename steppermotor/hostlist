@@ -1,4 +1,7 @@
 # host name                     dynamic/static common prefix   list of stations (space separated)
+
+# Lab crates
+xfelcpusdxlab1.desy.de          D              test            XLAB1
                                               
 # Development crates                          
 mskcpuckdev.desy.de             D              devel           CK
