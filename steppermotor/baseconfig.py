@@ -1,5 +1,4 @@
 (ACCELERATOR,STATION)=INSTANCE_CONFIG
-FULL_STATION_NAME= ("A" if "${ACCELERATOR}" == "XFEL" else "ACC" if "${ACCELERATOR}" == "FLASH" else "") + STATION
 
 SERVERNAME="steppermotorserver"
 EXECUTABLE_IN_PACKAGE="/export/doocs/server/steppermotorserver/steppermotorserver"
