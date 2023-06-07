@@ -1,13 +1,11 @@
 #######################################################################################################################
 #
-# cmake module for finding the config generator
+# cmake module for finding the yajl library
 #
 # returns:
-#   ConfigGenerator_FOUND   : true or false, depending on whether the package was found
-#   ConfigGenerator_VERSION : the package version
-#   ConfigGenerator_DIR     : path to the include directory
-#
-# @author Martin Hierholzer, DESY
+#   libYajl_FOUND       : true or false, depending on whether the package was found
+#   libYajl_LIBRARY     : path to the library
+# @author Patrick Nonn, DESY
 #
 #######################################################################################################################
 
@@ -23,19 +21,14 @@
 #
 #######################################################################################################################
 
-SET(ConfigGenerator_FOUND 0)
+set(libYajl_FOUND 0)
 
-
-file(GLOB ConfigGenerator_SEARCH_PATHS ${CMAKE_CURRENT_LIST_DIR} "/usr/share/ConfigGenerator*")
-FIND_PATH(ConfigGenerator_DIR
-    NAMES ConfigGeneratorConfigVersion.cmake
-    PATHS ${ConfigGenerator_SEARCH_PATHS}
+find_library(libYajl_LIBRARY
+    NAMES yajl yajl.so libyajl.so
+    PATHS /usr/lib /usr/lib32 /usr/lib64 /usr/local/lib
+    HINTS ${CMAKE_INSTALL_LIBDIR}
 )
 
-include(${ConfigGenerator_DIR}/ConfigGeneratorConfigVersion.cmake)
-set(ConfigGenerator_VERSION ${PACKAGE_VERSION})
-
-# use a macro provided by CMake to check if all the listed arguments are valid and set ConfigGenerator_FOUND accordingly
+# use a macro provided by CMake to check if all the listed arguments are valid and set Yajl_FOUND accordingly
 include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(ConfigGenerator REQUIRED_VARS ConfigGenerator_DIR VERSION_VAR ConfigGenerator_VERSION )
-
+find_package_handle_standard_args(libYajl REQUIRED_VARS libYajl_LIBRARY)
