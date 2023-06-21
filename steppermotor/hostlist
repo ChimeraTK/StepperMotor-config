@@ -9,6 +9,7 @@ mskcpusync26a1.desy.de          D              lab            26A1
 # Development crates                          
 mskcpuckdev.desy.de             D              devel           CK
 mskcputechlab201.desy.de        D              devel.showcase  DS
+techlabcpullrfdev.desy.de       D              devel           JG
                                                
 # MESA Uni Mainz                               
 mesa-ubuntu.kph.uni-mainz.de    S              mesa            MOTOR

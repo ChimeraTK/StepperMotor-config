@@ -20,6 +20,11 @@
       <value i="${MOTOR}"  v="${MOTOR_DRIVER[MOTOR]}"/>
       % endfor
     </variable>
+    <variable name="motorDriverCardName" type="string">
+      % for MOTOR in range(0,LEN) :
+      <value i="${MOTOR}"  v="${MOTOR_DRIVERCARD[MOTOR]}"/>
+      % endfor
+    </variable>
     <variable name="motorDriverModuleName" type="string">
       % for MOTOR in range(0,LEN) :
       <value i="${MOTOR}"  v="${MOTOR_MODULENAME[MOTOR]}"/>

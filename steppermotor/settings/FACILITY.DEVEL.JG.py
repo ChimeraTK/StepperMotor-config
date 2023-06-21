@@ -1,0 +1,24 @@
+if ACCELERATOR == "DEVEL" :
+  if STATION == "JG" :
+
+    RPC_NUMBER=610489684
+
+    MAPFILE_BASENAME="uni_fmc_pzt4_ctrl_fmc25_70t_md22_md22_"
+
+    MOTORS=["1"]
+    MOTORDRIVERS=1
+
+    MOTORDRIVER_SLOT=[6]
+    MOTORDRIVER_NAME=["MotorDriver1"]
+
+    MOTOR_DRIVER=[MOTORDRIVER_NAME[0]]
+    MOTOR_DRIVERCARD=["BSP"]
+    MOTOR_DRIVERTYPE=["MD22", "MD22"]
+    MOTOR_TYPE=["LinearMotorWithReferenceSwitch"]
+    MOTOR_MODULENAME=["FMC1"]
+    MOTOR_DRIVERID=[0]
+    MOTOR_MOTORDRIVERCONFIG=["Limes122-MotorDriverCardConfig.xml"]
+    MOTOR_MOTORSTEPSRATIO=[0.0003125]
+    #MOTOR_ENCODERSTEPSRATIO giving as string otherwise python does scientific converstion.
+    MOTOR_ENCODERSTEPSRATIO=["0.000001"]
+    MOTOR_POSITIONUNIT=["mm"]
