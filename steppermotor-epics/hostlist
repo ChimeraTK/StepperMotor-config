@@ -6,3 +6,6 @@ mskcputechlab201.desy.de        D              devel.showcase  M1 M2
                                                
 # MESA Uni Mainz                               
 mesa-ubuntu.kph.uni-mainz.de    S              mesa            M1 M2 M3 M4
+
+# TARLA
+tarlacpullrf2                   S              tarla           LLRF2
