@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EPICSdb xmlns="https://github.com/ChimeraTK/ControlSystemAdapter-EPICS-IOC-Adapter" application="steppermotorserver">
+    <sourcefile type="xml-variables" path="/home/jgeorg/Source/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver.xml" label="steppermotorserver">
+        <alias handle="Control" surrogate="control/" />
+        <alias handle="Controlinput" surrogate="controlInput/" />
+        <alias handle="Currentlimit" surrogate="currentLimit/" />
+        <alias handle="Dev" surrogate="Devices/" />
+        <alias handle="Dev_040logicalnamemap_063map_061motorproxy_046xlmap_038target_061motor_095dummy1_038monitorregister_061md22_0950_047word_095proj_095version_038driverid_0610_041" surrogate="+{Dev}+{_040logicalnamemap_063map_061motorproxy_046xlmap_038target_061motor_095dummy1_038monitorregister_061md22_0950_047word_095proj_095version_038driverid_0610_041}" />
+        <alias handle="Dev_040logicalnamemap_063map_061motorproxy_046xlmap_038target_061motor_095dummy2_038monitorregister_061md22_0951_047word_095proj_095version_038driverid_0611_041" surrogate="+{Dev}+{_040logicalnamemap_063map_061motorproxy_046xlmap_038target_061motor_095dummy2_038monitorregister_061md22_0951_047word_095proj_095version_038driverid_0611_041}" />
+        <alias handle="Dummysignals" surrogate="dummySignals/" />
+        <alias handle="Modulestatus" surrogate="ModuleStatus/" />
+        <alias handle="Motor1" surrogate="Motor1/" />
+        <alias handle="Motor1ControlinputControl" surrogate="+{Motor1}+{Controlinput}+{Control}" />
+        <alias handle="Motor1ControlinputDummysignals" surrogate="+{Motor1}+{Controlinput}+{Dummysignals}" />
+        <alias handle="Motor1ControlinputNotification" surrogate="+{Motor1}+{Controlinput}+{Notification}" />
+        <alias handle="Motor1ControlinputPositionsetpoint" surrogate="+{Motor1}+{Controlinput}+{Positionsetpoint}" />
+        <alias handle="Motor1ControlinputReferencesettings" surrogate="+{Motor1}+{Controlinput}+{Referencesettings}" />
+        <alias handle="Motor1ControlinputSwlimits" surrogate="+{Motor1}+{Controlinput}+{Swlimits}" />
+        <alias handle="Motor1ControlinputUserlimits" surrogate="+{Motor1}+{Controlinput}+{Userlimits}" />
+        <alias handle="Motor1Readback" surrogate="+{Motor1}+{Readback}" />
+        <alias handle="Motor1ReadbackCurrentlimit" surrogate="+{Motor1}+{Readback}+{Currentlimit}" />
+        <alias handle="Motor1ReadbackModulestatus" surrogate="+{Motor1}+{Readback}+{Modulestatus}" />
+        <alias handle="Motor1ReadbackNegativeendswitch" surrogate="+{Motor1}+{Readback}+{Negativeendswitch}" />
+        <alias handle="Motor1ReadbackPosition" surrogate="+{Motor1}+{Readback}+{Position}" />
+        <alias handle="Motor1ReadbackPositiveendswitch" surrogate="+{Motor1}+{Readback}+{Positiveendswitch}" />
+        <alias handle="Motor1ReadbackSpeedlimit" surrogate="+{Motor1}+{Readback}+{Speedlimit}" />
+        <alias handle="Motor1ReadbackStatus" surrogate="+{Motor1}+{Readback}+{Status}" />
+        <alias handle="Motor1ReadbackSwlimits" surrogate="+{Motor1}+{Readback}+{Swlimits}" />
+        <alias handle="Motor1Statuspropagator" surrogate="+{Motor1}+{Statuspropagator}" />
+        <alias handle="Motors" surrogate="Motors/" />
+        <alias handle="Negativeendswitch" surrogate="negativeEndSwitch/" />
+        <alias handle="Notification" surrogate="notification/" />
+        <alias handle="Position" surrogate="position/" />
+        <alias handle="Positionsetpoint" surrogate="positionSetpoint/" />
+        <alias handle="Positiveendswitch" surrogate="positiveEndSwitch/" />
+        <alias handle="Readback" surrogate="readback/" />
+        <alias handle="Referencesettings" surrogate="referenceSettings/" />
+        <alias handle="Speedlimit" surrogate="speedLimit/" />
+        <alias handle="Status" surrogate="status/" />
+        <alias handle="Statuspropagator" surrogate="StatusPropagator/" />
+        <alias handle="Swlimits" surrogate="swLimits/" />
+        <alias handle="Trigger" surrogate="Trigger/" />
+        <alias handle="Userlimits" surrogate="userLimits/" />
+    </sourcefile>
+    <outputfile path="/home/jgeorg/Source/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-motor.db" macroReserve="0">
+        <field type="DTYP" value="ChimeraTK" />
+        <recordgroup type="bi" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <field type="ZNAM" value="False" />
+            <field type="ONAM" value="True" />
+            <record pvName="Motor1ControlinputNotification/hasMessage" source="steppermotorserver.+{Motor1ControlinputNotification}hasMessage" />
+            <record pvName="Motor1ReadbackPositiveendswitch/isAvailable" source="steppermotorserver.+{Motor1ReadbackPositiveendswitch}isAvailable" />
+            <record pvName="Motor1ReadbackNegativeendswitch/isAvailable" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}isAvailable" />
+        </recordgroup>
+        <recordgroup type="ai" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <record pvName="Motor1Readback/actualReceiveTime" source="steppermotorserver.+{Motor1Readback}actualReceiveTime" />
+            <record pvName="Motor1Readback/actualCycleTime" source="steppermotorserver.+{Motor1Readback}actualCycleTime" />
+            <record pvName="Motor1ReadbackPosition/actualValue" source="steppermotorserver.+{Motor1ReadbackPosition}actualValue" />
+            <record pvName="Motor1ReadbackPosition/encoder" source="steppermotorserver.+{Motor1ReadbackPosition}encoder" />
+            <record pvName="Motor1ReadbackPosition/targetValue" source="steppermotorserver.+{Motor1ReadbackPosition}targetValue" />
+            <record pvName="Motor1ReadbackSpeedlimit/userValue" source="steppermotorserver.+{Motor1ReadbackSpeedlimit}userValue" />
+            <record pvName="Motor1ReadbackSpeedlimit/maxValue" source="steppermotorserver.+{Motor1ReadbackSpeedlimit}maxValue" />
+            <record pvName="Motor1ReadbackCurrentlimit/maxValue" source="steppermotorserver.+{Motor1ReadbackCurrentlimit}maxValue" />
+            <record pvName="Motor1ReadbackCurrentlimit/userValue" source="steppermotorserver.+{Motor1ReadbackCurrentlimit}userValue" />
+            <record pvName="Motor1ReadbackSwlimits/maxPosition" source="steppermotorserver.+{Motor1ReadbackSwlimits}maxPosition" />
+            <record pvName="Motor1ReadbackSwlimits/minPosition" source="steppermotorserver.+{Motor1ReadbackSwlimits}minPosition" />
+            <record pvName="Motor1ReadbackPositiveendswitch/position" source="steppermotorserver.+{Motor1ReadbackPositiveendswitch}position" />
+            <record pvName="Motor1ReadbackPositiveendswitch/tolerance" source="steppermotorserver.+{Motor1ReadbackPositiveendswitch}tolerance" />
+            <record pvName="Motor1ReadbackNegativeendswitch/position" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}position" />
+            <record pvName="Motor1ReadbackNegativeendswitch/tolerance" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}tolerance" />
+        </recordgroup>
+        <recordgroup type="lsi" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <record pvName="Motor1ControlinputNotification/message" source="steppermotorserver.+{Motor1ControlinputNotification}message" />
+            <record pvName="Motor1Statuspropagator/message" source="steppermotorserver.+{Motor1Statuspropagator}message" />
+            <record pvName="Motor1Statuspropagator/motorState" source="steppermotorserver.+{Motor1Statuspropagator}motorState" />
+            <record pvName="Motor1ReadbackModulestatus/message" source="steppermotorserver.+{Motor1ReadbackModulestatus}message" />
+            <record pvName="Motor1ReadbackStatus/state" source="steppermotorserver.+{Motor1ReadbackStatus}state" />
+        </recordgroup>
+        <recordgroup type="ao" autosave="true">
+            <field type="SCAN" value="Passive" />
+            <field type="OUT" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <field type="PINI" value="1" />
+            <record pvName="Motor1ControlinputUserlimits/current" source="steppermotorserver.+{Motor1ControlinputUserlimits}current" />
+            <record pvName="Motor1ControlinputUserlimits/speed" source="steppermotorserver.+{Motor1ControlinputUserlimits}speed" />
+            <record pvName="Motor1ControlinputPositionsetpoint/relativePosition" source="steppermotorserver.+{Motor1ControlinputPositionsetpoint}relativePosition" />
+            <record pvName="Motor1ControlinputPositionsetpoint/position" source="steppermotorserver.+{Motor1ControlinputPositionsetpoint}position" />
+            <record pvName="Motor1ControlinputSwlimits/maxPosition" source="steppermotorserver.+{Motor1ControlinputSwlimits}maxPosition" />
+            <record pvName="Motor1ControlinputSwlimits/minPosition" source="steppermotorserver.+{Motor1ControlinputSwlimits}minPosition" />
+            <record pvName="Motor1ControlinputReferencesettings/position" source="steppermotorserver.+{Motor1ControlinputReferencesettings}position" />
+            <record pvName="Motor1ControlinputReferencesettings/axisTranslation" source="steppermotorserver.+{Motor1ControlinputReferencesettings}axisTranslation" />
+        </recordgroup>
+        <recordgroup type="longout" autosave="true">
+            <field type="SCAN" value="Passive" />
+            <field type="OUT" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <field type="PINI" value="1" />
+            <record pvName="Motor1/status" source="steppermotorserver.+{Motor1}status" />
+            <record pvName="Motor1ControlinputPositionsetpoint/relativePositionInSteps" source="steppermotorserver.+{Motor1ControlinputPositionsetpoint}relativePositionInSteps" />
+            <record pvName="Motor1ControlinputPositionsetpoint/positionInSteps" source="steppermotorserver.+{Motor1ControlinputPositionsetpoint}positionInSteps" />
+            <record pvName="Motor1ControlinputControl/start" source="steppermotorserver.+{Motor1ControlinputControl}start" />
+            <record pvName="Motor1ControlinputControl/emergencyStop" source="steppermotorserver.+{Motor1ControlinputControl}emergencyStop" />
+            <record pvName="Motor1ControlinputControl/disable" source="steppermotorserver.+{Motor1ControlinputControl}disable" />
+            <record pvName="Motor1ControlinputControl/stop" source="steppermotorserver.+{Motor1ControlinputControl}stop" />
+            <record pvName="Motor1ControlinputControl/enableAutostart" source="steppermotorserver.+{Motor1ControlinputControl}enableAutostart" />
+            <record pvName="Motor1ControlinputControl/enableFullStepping" source="steppermotorserver.+{Motor1ControlinputControl}enableFullStepping" />
+            <record pvName="Motor1ControlinputControl/resetError" source="steppermotorserver.+{Motor1ControlinputControl}resetError" />
+            <record pvName="Motor1ControlinputControl/enable" source="steppermotorserver.+{Motor1ControlinputControl}enable" />
+            <record pvName="Motor1ControlinputSwlimits/enable" source="steppermotorserver.+{Motor1ControlinputSwlimits}enable" />
+            <record pvName="Motor1ControlinputSwlimits/maxPositionInSteps" source="steppermotorserver.+{Motor1ControlinputSwlimits}maxPositionInSteps" />
+            <record pvName="Motor1ControlinputSwlimits/minPositionInSteps" source="steppermotorserver.+{Motor1ControlinputSwlimits}minPositionInSteps" />
+            <record pvName="Motor1ControlinputReferencesettings/positionInSteps" source="steppermotorserver.+{Motor1ControlinputReferencesettings}positionInSteps" />
+            <record pvName="Motor1ControlinputReferencesettings/encoderPosition" source="steppermotorserver.+{Motor1ControlinputReferencesettings}encoderPosition" />
+            <record pvName="Motor1ControlinputReferencesettings/axisTranslationInSteps" source="steppermotorserver.+{Motor1ControlinputReferencesettings}axisTranslationInSteps" />
+        </recordgroup>
+        <recordgroup type="longin" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <record pvName="Motor1/Dummy" source="steppermotorserver.+{Motor1}Dummy" />
+            <record pvName="Motor1ControlinputDummysignals/dummyMotorTrigger" source="steppermotorserver.+{Motor1ControlinputDummysignals}dummyMotorTrigger" />
+            <record pvName="Motor1ControlinputDummysignals/dummyMotorStop" source="steppermotorserver.+{Motor1ControlinputDummysignals}dummyMotorStop" />
+            <record pvName="Motor1ReadbackModulestatus/status" source="steppermotorserver.+{Motor1ReadbackModulestatus}status" />
+            <record pvName="Motor1ReadbackPosition/actualValueInSteps" source="steppermotorserver.+{Motor1ReadbackPosition}actualValueInSteps" />
+            <record pvName="Motor1ReadbackPosition/targetValueInSteps" source="steppermotorserver.+{Motor1ReadbackPosition}targetValueInSteps" />
+            <record pvName="Motor1ReadbackStatus/isEnabled" source="steppermotorserver.+{Motor1ReadbackStatus}isEnabled" />
+            <record pvName="Motor1ReadbackStatus/errorId" source="steppermotorserver.+{Motor1ReadbackStatus}errorId" />
+            <record pvName="Motor1ReadbackStatus/isFullStepping" source="steppermotorserver.+{Motor1ReadbackStatus}isFullStepping" />
+            <record pvName="Motor1ReadbackStatus/autostartEnabled" source="steppermotorserver.+{Motor1ReadbackStatus}autostartEnabled" />
+            <record pvName="Motor1ReadbackStatus/encoderReadoutMode" source="steppermotorserver.+{Motor1ReadbackStatus}encoderReadoutMode" />
+            <record pvName="Motor1ReadbackStatus/calibrationMode" source="steppermotorserver.+{Motor1ReadbackStatus}calibrationMode" />
+            <record pvName="Motor1ReadbackStatus/isIdle" source="steppermotorserver.+{Motor1ReadbackStatus}isIdle" />
+            <record pvName="Motor1ReadbackSwlimits/isEnabled" source="steppermotorserver.+{Motor1ReadbackSwlimits}isEnabled" />
+            <record pvName="Motor1ReadbackSwlimits/minPositionInSteps" source="steppermotorserver.+{Motor1ReadbackSwlimits}minPositionInSteps" />
+            <record pvName="Motor1ReadbackSwlimits/maxPositionInSteps" source="steppermotorserver.+{Motor1ReadbackSwlimits}maxPositionInSteps" />
+            <record pvName="Motor1ReadbackPositiveendswitch/positionInSteps" source="steppermotorserver.+{Motor1ReadbackPositiveendswitch}positionInSteps" />
+            <record pvName="Motor1ReadbackPositiveendswitch/isActive" source="steppermotorserver.+{Motor1ReadbackPositiveendswitch}isActive" />
+            <record pvName="Motor1ReadbackNegativeendswitch/positionInSteps" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}positionInSteps" />
+            <record pvName="Motor1ReadbackNegativeendswitch/isActive" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}isActive" />
+        </recordgroup>
+    </outputfile>
+    <outputfile path="/home/jgeorg/Source/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver.db" macroReserve="0">
+        <field type="DTYP" value="ChimeraTK" />
+        <recordgroup type="aai" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="+{:numberOfElements}" />
+            <record pvName="Motors/motorDriverType" source="steppermotorserver.+{Motors}motorDriverType" />
+            <record pvName="Motors/motorType" source="steppermotorserver.+{Motors}motorType" />
+            <record pvName="Motors/motorDriverDeviceName" source="steppermotorserver.+{Motors}motorDriverDeviceName" />
+            <record pvName="Motors/motorDriverCardName" source="steppermotorserver.+{Motors}motorDriverCardName" />
+            <record pvName="Motors/motorDriverModuleName" source="steppermotorserver.+{Motors}motorDriverModuleName" />
+            <record pvName="Motors/motorDriverId" source="steppermotorserver.+{Motors}motorDriverId" />
+            <record pvName="Motors/motorDriverConfigFile" source="steppermotorserver.+{Motors}motorDriverConfigFile" />
+            <record pvName="Motors/userUnitToStepsRatio" source="steppermotorserver.+{Motors}userUnitToStepsRatio" />
+            <record pvName="Motors/encoderUnitToStepsRatio" source="steppermotorserver.+{Motors}encoderUnitToStepsRatio" />
+            <record pvName="Motors/userPositionUnit" source="steppermotorserver.+{Motors}userPositionUnit" />
+            <record pvName="Motors/dummy" source="steppermotorserver.+{Motors}dummy" />
+        </recordgroup>
+        <recordgroup type="longin" autosave="false">
+            <field type="SCAN" value="1 second" />
+            <field type="INP" value="@$(APP) +{:address}" />
+            <field type="EGU" value="+{:unit}" />
+            <record pvName="Trigger/period" source="steppermotorserver.+{Trigger}period" />
+            <record pvName="Motors/nMotors" source="steppermotorserver.+{Motors}nMotors" />
+        </recordgroup>
+    </outputfile>
+</EPICSdb>
