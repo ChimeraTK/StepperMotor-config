@@ -42,7 +42,7 @@
         <alias handle="Trigger" surrogate="Trigger/" />
         <alias handle="Userlimits" surrogate="userLimits/" />
     </sourcefile>
-    <outputfile path="/home/jgeorg/Source/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-motor.db" macroReserve="0">
+    <outputfile path="../templates/db/steppermotorserver-motor.db" macroReserve="0">
         <field type="DTYP" value="ChimeraTK" />
         <recordgroup type="bi" autosave="false">
             <field type="SCAN" value="1 second" />
@@ -145,7 +145,7 @@
             <record pvName="Motor1ReadbackNegativeendswitch/isActive" source="steppermotorserver.+{Motor1ReadbackNegativeendswitch}isActive" />
         </recordgroup>
     </outputfile>
-    <outputfile path="/home/jgeorg/Source/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver.db" macroReserve="0">
+    <outputfile path="../templates/db/steppermotorserver.db" macroReserve="0">
         <field type="DTYP" value="ChimeraTK" />
         <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
