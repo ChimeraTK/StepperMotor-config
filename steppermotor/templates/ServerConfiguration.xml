@@ -56,8 +56,9 @@
       % endfor
     </variable>
     <variable name="dummy" type="int32">
-      <value i="0" v="0" />
-      <value i="1" v="0" />
+      % for MOTOR in range(0,LEN) :
+      <value i="${MOTOR}"  v="0"/>
+      % endfor
     </variable>
   </module>
 </configuration>
