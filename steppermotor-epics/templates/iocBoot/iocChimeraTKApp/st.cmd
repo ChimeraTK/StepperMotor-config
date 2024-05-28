@@ -15,6 +15,7 @@ ${"## Set up search path for autosave save files"}
 
 ${"## Load record instances"}
 dbLoadRecords("../../db/steppermotorserver.db","P=${STATION},APP=ChimeraTKApp")
+dbLoadRecords("../../db/steppermotorserver-motor.db","P=${STATION},APP=ChimeraTKApp")
 
 ${"## Set up PV-Restore at boot up. pass0 and pass1 refer to different stages during boot."}
 ${"## For more information refer to: https://htmlpreview.github.io/?https://github.com/epics-modules/autosave/blob/master/documentation/autoSaveRestore.html#How%20to%20use%20autosave"}
