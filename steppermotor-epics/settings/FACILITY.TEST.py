@@ -17,14 +17,10 @@
 #                     position_unit: str = 'steps',
 #                     is_dummy: bool = False)
 
-if ACCELERATOR == 'MESA':
-    if STATION == 'LLRF':
-        #todo clean up MOTORDRIVER_CFG_FILE variable
-        MOTORDRIVER_CFG_FILE='mesamotor.xml'
-
+if ACCELERATOR == 'TEST':
+    if STATION == 'SCAV2':
+        #TODO clean up MOTORDRIVER_CFG_FILE variable
+        MOTORDRIVER_CFG_FILE='Limes122-MotorDriverCardConfig.xml'
         motor_cfg = MotorConfig()
-        motor_cfg.add_device('MotorDriver1', 'FMC20', 3, 'controller_pzt4_md22_md22', '6s45_r2261')
-        motor_cfg.add_motor('M1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 0, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('M2', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 1, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('M3', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 0, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('M4', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 1, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_device('MotorDriver1', 'FMC25_70t', 4, 'llrf_resonance_ctrl', '1.1.0-9-g193bac26')
+        motor_cfg.add_motor('Test1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC2', 0, MOTORDRIVER_CFG_FILE)
