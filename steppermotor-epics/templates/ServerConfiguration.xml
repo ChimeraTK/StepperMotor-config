@@ -1,0 +1,64 @@
+##mako
+<configuration>
+    <module name="Trigger">
+        <variable name="period" type="uint32" value="${CYCLE_TIME_MS}"/>
+    </module>
+    <module name="Motors">
+        <variable name="nMotors" type="uint32" value="${motor_cfg.number_motors}"/>
+        <variable name="motorDriverType" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.fmc_type}"/>
+            % endfor
+        </variable>
+        <variable name="motorType" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.type}"/>
+            % endfor
+        </variable>
+        <variable name="motorDriverDeviceName" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.device.name}"/>
+            % endfor
+        </variable>
+        <variable name="motorDriverCardName" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.device.board}"/>
+            % endfor
+        </variable>
+        <variable name="motorDriverModuleName" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.fmc_slot}"/>
+            % endfor
+        </variable>
+        <variable name="motorDriverId" type="uint32">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.port}"/>
+            % endfor
+        </variable>
+        <variable name="motorDriverConfigFile" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.config_file}"/>
+            % endfor
+        </variable>
+        <variable name="userUnitToStepsRatio" type="float">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.steps_ratio[0]}"/>
+            % endfor
+        </variable>
+        <variable name="encoderUnitToStepsRatio" type="double">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.steps_ratio[1]}"/>
+            % endfor
+        </variable>
+        <variable name="userPositionUnit" type="string">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value i="${motor_number}"  v="${motor.unit}"/>
+            % endfor
+        </variable>
+        <variable name="dummy" type="int32">
+            % for motor_number, motor in  motor_cfg.motors.items():
+            <value  i="${motor_number}"  v="${motor.is_dummy()}"/>
+            % endfor
+        </variable>
+    </module>
+</configuration>
