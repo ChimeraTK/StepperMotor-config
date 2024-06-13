@@ -1,4 +1,0 @@
-##mako
-% for DRIVER in range(MOTORDRIVERS) :
-${MOTORDRIVER_NAME[DRIVER]}    (pci:pcieunis${MOTORDRIVER_SLOT[DRIVER]}?map=${MAPFILE_BASENAME}${FIRMWARE_REV_MOTDRV}.mapp)
-% endfor
