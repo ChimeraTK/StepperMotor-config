@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EPICSdb xmlns="https://github.com/ChimeraTK/ControlSystemAdapter-EPICS-IOC-Adapter" application="steppermotorserver">
-    <sourcefile type="xml-variables" path="steppermotorserver_1_0_3.xml" label="steppermotorserver" />
+    <sourcefile type="xml-variables" path="steppermotorserver_1_0_4.xml" label="steppermotorserver" />
     <!-- Cheat Sheet: recordgroup types
     input records: ending with in/i, for data from device (ChimeraTK application) to control system (EPICS client)
     output records: ending with out/o, for data from control system (EPICS client) to device (ChimeraTK application)
@@ -51,7 +51,7 @@
         </recordgroup>
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
-            <field type="INP" value="@$(APP) Motor$(MotorNr)/currentLimit/readback/+{:variableName}" />
+            <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/currentLimit/+{:variableName}" />
             <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/maxValue" source="steppermotorserver.Motor1/readback/currentLimit/maxValue" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/userValue" source="steppermotorserver.Motor1/readback/currentLimit/userValue" />
@@ -79,19 +79,19 @@
         </recordgroup>
         <recordgroup type="lsi" autosave="false">
             <field type="SCAN" value="1 second" />
-            <record pvName="$(Server)/$(Motor)/InNotification/message" source="steppermotorserver.Motor1/controlInput/notification/message">
+            <record pvName="$(Server)/$(Motor)/InNotification/message" source="">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/notification/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/message" source="steppermotorserver.Motor1/StatusPropagator/message">
+            <record pvName="$(Server)/$(Motor)/Status/message" source="">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/StatusPropagator/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/motorState" source="steppermotorserver.Motor1/StatusPropagator/motorState">
+            <record pvName="$(Server)/$(Motor)/Status/motorState" source="">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/StatusPropagator/motorState" />
             </record>
-            <record pvName="$(Server)/$(Motor)/ModuleStatus/message" source="steppermotorserver.Motor1/readback/ModuleStatus/message">
-                <field type="INP" value="@$(APP) Motor$(MotorNr)/ModuleStatus/message" />
+            <record pvName="$(Server)/$(Motor)/ModuleStatus/message" source="">
+                <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/ModuleStatus/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/StatusRB/state" source="steppermotorserver.Motor1/readback/status/state">
+            <record pvName="$(Server)/$(Motor)/StatusRB/state" source="">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/state" />
             </record>
         </recordgroup>
@@ -252,7 +252,9 @@
             <record pvName="$(Server)/Motors/driverDeviceName" source="steppermotorserver.Motors/motorDriverDeviceName" />
             <record pvName="$(Server)/Motors/driverCardName" source="steppermotorserver.Motors/motorDriverCardName" />
             <record pvName="$(Server)/Motors/driverModuleName" source="steppermotorserver.Motors/motorDriverModuleName" />
-            <record pvName="$(Server)/Motors/driverId" source="steppermotorserver.Motors/motorDriverId" />
+            <record pvName="$(Server)/Motors/driverId" source="steppermotorserver.Motors/motorDriverId">
+                <field type="FTVL" value="SHORT" /><!--Override necessary, because IOC recognizes it as SHORT instead of USHORT-->
+            </record>
             <record pvName="$(Server)/Motors/driverConfigFile" source="steppermotorserver.Motors/motorDriverConfigFile" />
             <record pvName="$(Server)/Motors/userUnitToStepsRatio" source="steppermotorserver.Motors/userUnitToStepsRatio" />
             <record pvName="$(Server)/Motors/encoderUnitToStepsRatio" source="steppermotorserver.Motors/encoderUnitToStepsRatio" />
