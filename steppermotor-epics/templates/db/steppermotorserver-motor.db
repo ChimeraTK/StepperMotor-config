@@ -45,91 +45,91 @@ record(ai, "$(Server)/$(Motor)/Position/actualValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/position/actualValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/Position/encoder"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/position/encoder")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/Position/targetValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/position/targetValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/SpeedLimit/userValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/speedLimit/userValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/SpeedLimit/maxValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/speedLimit/maxValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/CurrentLimit/maxValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/currentLimit/readback/maxValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/CurrentLimit/userValue"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/currentLimit/readback/userValue")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/SwLimit/positionMax"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/swLimits/maxPosition")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/SwLimit/positionMin"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/swLimits/minPosition")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/EndswitchPositive/position"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/position")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/EndswitchPositive/tolerance"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/tolerance")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/EndswitchNegative/position"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/position")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(ai, "$(Server)/$(Motor)/EndswitchNegative/tolerance"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "1 second")
     field(INP, "@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/tolerance")
-    field(EGU, "None")
+    field(EGU, "")
 }
 
 record(lsi, "$(Server)/$(Motor)/InNotification/message"){
@@ -174,7 +174,7 @@ record(ao, "$(Server)/$(Motor)/InUserlimits/speed"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/userLimits/speed")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -182,7 +182,7 @@ record(ao, "$(Server)/$(Motor)/InPositionSP/positionRelative"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/positionSetpoint/relativePosition")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 
@@ -190,7 +190,7 @@ record(ao, "$(Server)/$(Motor)/InPositionSP/position"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/positionSetpoint/position")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 
@@ -198,7 +198,7 @@ record(ao, "$(Server)/$(Motor)/InSwlimits/positionMax"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/swLimits/maxPosition")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 
@@ -206,7 +206,7 @@ record(ao, "$(Server)/$(Motor)/InSwlimits/positionMin"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/swLimits/minPosition")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 
@@ -214,7 +214,7 @@ record(ao, "$(Server)/$(Motor)/InRefSettings/position"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/position")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 
@@ -222,7 +222,7 @@ record(ao, "$(Server)/$(Motor)/InRefSettings/axisTranslation"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/axisTranslation")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -230,7 +230,7 @@ record(longout, "$(Server)/$(Motor)/status"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/status")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -238,7 +238,7 @@ record(longout, "$(Server)/$(Motor)/InPositionSP/positionStepsRelative"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/positionSetpoint/relativePositionInSteps")
-    field(EGU, "None")
+    field(EGU, "steps")
     field(PINI, "1")
 }
 
@@ -254,7 +254,7 @@ record(longout, "$(Server)/$(Motor)/InControl/start"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/start")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -262,7 +262,7 @@ record(longout, "$(Server)/$(Motor)/InControl/emergencyStop"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/emergencyStop")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -270,7 +270,7 @@ record(longout, "$(Server)/$(Motor)/InControl/disable"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/disable")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -278,7 +278,7 @@ record(longout, "$(Server)/$(Motor)/InControl/stop"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/stop")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -286,7 +286,7 @@ record(longout, "$(Server)/$(Motor)/InControl/enableAutostart"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/enableAutostart")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -294,7 +294,7 @@ record(longout, "$(Server)/$(Motor)/InControl/enableFullStepping"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/enableFullStepping")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -302,7 +302,7 @@ record(longout, "$(Server)/$(Motor)/InControl/resetError"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/resetError")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -310,7 +310,7 @@ record(longout, "$(Server)/$(Motor)/InControl/enable"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/control/enable")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -318,7 +318,7 @@ record(longout, "$(Server)/$(Motor)/InSwlimits/enable"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/swLimits/enable")
-    field(EGU, "None")
+    field(EGU, "")
     field(PINI, "1")
 }
 
@@ -326,7 +326,7 @@ record(longout, "$(Server)/$(Motor)/InSwlimits/positionMaxSteps"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/swLimits/maxPositionInSteps")
-    field(EGU, "None")
+    field(EGU, "steps")
     field(PINI, "1")
 }
 
@@ -334,7 +334,7 @@ record(longout, "$(Server)/$(Motor)/InSwlimits/positionMinSteps"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/swLimits/minPositionInSteps")
-    field(EGU, "None")
+    field(EGU, "steps")
     field(PINI, "1")
 }
 
@@ -342,7 +342,7 @@ record(longout, "$(Server)/$(Motor)/InRefSettings/positionSteps"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/positionInSteps")
-    field(EGU, "None")
+    field(EGU, "steps")
     field(PINI, "1")
 }
 
@@ -350,7 +350,7 @@ record(longout, "$(Server)/$(Motor)/InRefSettings/positionEncoder"){
     field(DTYP, "ChimeraTK")
     field(SCAN, "Passive")
     field(OUT, "@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/encoderPosition")
-    field(EGU, "None")
+    field(EGU, "$(PosUnit)")
     field(PINI, "1")
 }
 

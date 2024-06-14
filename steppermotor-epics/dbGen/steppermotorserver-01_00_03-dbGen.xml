@@ -37,7 +37,7 @@
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/position/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/Position/actualValue" source="steppermotorserver.Motor1/readback/position/actualValue" />
             <record pvName="$(Server)/$(Motor)/Position/encoder" source="steppermotorserver.Motor1/readback/position/encoder" />
             <record pvName="$(Server)/$(Motor)/Position/targetValue" source="steppermotorserver.Motor1/readback/position/targetValue" />
@@ -45,35 +45,35 @@
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/speedLimit/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/SpeedLimit/userValue" source="steppermotorserver.Motor1/readback/speedLimit/userValue" />
             <record pvName="$(Server)/$(Motor)/SpeedLimit/maxValue" source="steppermotorserver.Motor1/readback/speedLimit/maxValue" />
         </recordgroup>
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/currentLimit/readback/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/maxValue" source="steppermotorserver.Motor1/readback/currentLimit/maxValue" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/userValue" source="steppermotorserver.Motor1/readback/currentLimit/userValue" />
         </recordgroup>
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/swLimits/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/SwLimit/positionMax" source="steppermotorserver.Motor1/readback/swLimits/maxPosition" />
             <record pvName="$(Server)/$(Motor)/SwLimit/positionMin" source="steppermotorserver.Motor1/readback/swLimits/minPosition" />
         </recordgroup>
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/EndswitchPositive/position" source="steppermotorserver.Motor1/readback/positiveEndSwitch/position" />
             <record pvName="$(Server)/$(Motor)/EndswitchPositive/tolerance" source="steppermotorserver.Motor1/readback/positiveEndSwitch/tolerance" />
         </recordgroup>
         <recordgroup type="ai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/EndswitchNegative/position" source="steppermotorserver.Motor1/readback/negativeEndSwitch/position" />
             <record pvName="$(Server)/$(Motor)/EndswitchNegative/tolerance" source="steppermotorserver.Motor1/readback/negativeEndSwitch/tolerance" />
         </recordgroup>
@@ -101,12 +101,12 @@
             <field type="EGU" value="+{:unit}" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InUserlimits/current" source="steppermotorserver.Motor1/controlInput/userLimits/current" />
-            <record pvName="$(Server)/$(Motor)/InUserlimits/speed" source="steppermotorserver.Motor1/controlInput/userLimits/speed" />
+            <record pvName="$(Server)/$(Motor)/InUserlimits/speed" source="steppermotorserver.Motor1/controlInput/userLimits/speed"><field type="EGU" value="" /></record>
         </recordgroup>
         <recordgroup type="ao" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/positionSetpoint/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="$(PosUnit)" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InPositionSP/positionRelative" source="steppermotorserver.Motor1/controlInput/positionSetpoint/relativePosition" />
             <record pvName="$(Server)/$(Motor)/InPositionSP/position" source="steppermotorserver.Motor1/controlInput/positionSetpoint/position" />
@@ -114,7 +114,7 @@
         <recordgroup type="ao" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/swLimits/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="$(PosUnit)" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InSwlimits/positionMax" source="steppermotorserver.Motor1/controlInput/swLimits/maxPosition" />
             <record pvName="$(Server)/$(Motor)/InSwlimits/positionMin" source="steppermotorserver.Motor1/controlInput/swLimits/minPosition" />
@@ -122,22 +122,22 @@
         <recordgroup type="ao" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <field type="PINI" value="1" />
-            <record pvName="$(Server)/$(Motor)/InRefSettings/position" source="steppermotorserver.Motor1/controlInput/referenceSettings/position" />
+            <record pvName="$(Server)/$(Motor)/InRefSettings/position" source="steppermotorserver.Motor1/controlInput/referenceSettings/position"><field type="EGU" value="$(PosUnit)" /></record>
             <record pvName="$(Server)/$(Motor)/InRefSettings/axisTranslation" source="steppermotorserver.Motor1/controlInput/referenceSettings/axisTranslation" />
         </recordgroup>
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/status" source="steppermotorserver.Motor1/status" />
         </recordgroup>
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/positionSetpoint/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="steps" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InPositionSP/positionStepsRelative" source="steppermotorserver.Motor1/controlInput/positionSetpoint/relativePositionInSteps" />
             <record pvName="$(Server)/$(Motor)/InPositionSP/positionSteps" source="steppermotorserver.Motor1/controlInput/positionSetpoint/positionInSteps" />
@@ -145,7 +145,7 @@
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/control/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InControl/start" source="steppermotorserver.Motor1/controlInput/control/start" />
             <record pvName="$(Server)/$(Motor)/InControl/emergencyStop" source="steppermotorserver.Motor1/controlInput/control/emergencyStop" />
@@ -159,19 +159,19 @@
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/swLimits/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="steps" />
             <field type="PINI" value="1" />
-            <record pvName="$(Server)/$(Motor)/InSwlimits/enable" source="steppermotorserver.Motor1/controlInput/swLimits/enable" />
+            <record pvName="$(Server)/$(Motor)/InSwlimits/enable" source="steppermotorserver.Motor1/controlInput/swLimits/enable"><field type="EGU" value="" /></record>
             <record pvName="$(Server)/$(Motor)/InSwlimits/positionMaxSteps" source="steppermotorserver.Motor1/controlInput/swLimits/maxPositionInSteps" />
             <record pvName="$(Server)/$(Motor)/InSwlimits/positionMinSteps" source="steppermotorserver.Motor1/controlInput/swLimits/minPositionInSteps" />
         </recordgroup>
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/referenceSettings/+{:variableName}" />
-            <field type="EGU" value="+{:unit}" />
+            <field type="EGU" value="steps" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InRefSettings/positionSteps" source="steppermotorserver.Motor1/controlInput/referenceSettings/positionInSteps" />
-            <record pvName="$(Server)/$(Motor)/InRefSettings/positionEncoder" source="steppermotorserver.Motor1/controlInput/referenceSettings/encoderPosition" />
+            <record pvName="$(Server)/$(Motor)/InRefSettings/positionEncoder" source="steppermotorserver.Motor1/controlInput/referenceSettings/encoderPosition"><field type="EGU" value="$(PosUnit)" /></record>
             <record pvName="$(Server)/$(Motor)/InRefSettings/axisTranslationSteps" source="steppermotorserver.Motor1/controlInput/referenceSettings/axisTranslationInSteps" />
         </recordgroup>
         <recordgroup type="longin" autosave="false">
