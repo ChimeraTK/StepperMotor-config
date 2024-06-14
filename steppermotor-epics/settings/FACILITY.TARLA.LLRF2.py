@@ -23,4 +23,4 @@ if ACCELERATOR == 'TARLA':
         MOTORDRIVER_CFG_FILE='Limes122-MotorDriverCardConfig-Tarla.xml'
         motor_cfg = MotorConfig()
         motor_cfg.add_device('MotorDriver1', 'FMC25', 3, 'llrf_resonance_ctrl', FIRMWARE_REV_MOTDRV)
-        motor_cfg.add_motor('LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 0, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_motor('Test1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 0, MOTORDRIVER_CFG_FILE)

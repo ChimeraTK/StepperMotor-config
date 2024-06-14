@@ -24,7 +24,7 @@ if ACCELERATOR == 'MESA':
 
         motor_cfg = MotorConfig()
         motor_cfg.add_device('MotorDriver1', 'FMC20', 3, 'controller_pzt4_md22_md22', '6s45_r2261')
-        motor_cfg.add_motor('LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 0, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 1, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 0, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_motor('LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 1, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_motor('M1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 0, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_motor('M2', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.0', 1, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_motor('M3', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 0, MOTORDRIVER_CFG_FILE)
+        motor_cfg.add_motor('M4', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 1, MOTORDRIVER_CFG_FILE)

@@ -27,6 +27,7 @@ class FmcCarrier:
 class Motor:
     """Container class to hold the information necessary to configure a single motor"""
     def __init__(self,
+                 motor_name: str,
                  motor_type: str,
                  device: FmcCarrier,
                  fmc_slot: str,
@@ -38,6 +39,7 @@ class Motor:
                  position_unit: str,
                  is_dummy: bool):
         """Init-function of class Motor
+        :param motor_name: Name to be used in PV to address the motor.
         :param motor_type: i.e.: 'LinearMotorWithReferenceSwitch'
         :param device: The FMC-carrier, the motor is connected to.
         :param fmc_slot: Name used in the firmware to address the FMCs. In newer fw 'FMC1/2' in older fw 'MD22.0/1'.
@@ -49,6 +51,7 @@ class Motor:
         :param position_unit: Unit to convert steps to.
         :param is_dummy: If true, a dummy instance is created in the server, instead of reading from the firmware.
         """
+        self.name = motor_name
         self.type = motor_type
         self.device = device
         self.fmc_slot = fmc_slot
@@ -103,6 +106,7 @@ class MotorConfig:
         self._number_devices += 1
 
     def add_motor(self,
+                  motor_name: str,
                   motor_type: str,
                   device: str,
                   fmc_slot: str,
@@ -114,6 +118,7 @@ class MotorConfig:
                   position_unit: str = 'steps',
                   is_dummy: bool = False) -> None:
         """Add motor instance to the configuration database.
+        :param motor_name: Name to be used in PV to address the motor. Needs to be unique.
         :param motor_type: i.e.: 'LinearMotorWithReferenceSwitch'
         :param device: The FMC-carrier, the motor is connected to. Has to be added by add_device(), before.
         :param fmc_slot: Name used in the firmware to address the FMCs. In newer fw 'FMC1/2' in older fw 'MD22.0/1'.
@@ -130,7 +135,10 @@ class MotorConfig:
             raise ValueError(f'Unknown device: {device}\nKnown devices: {self.devices.keys()}')
         if port_number not in [0, 1]:
             raise ValueError(f'{port_number} is not a valid port number. Port numbers should be either 0 or 1')
-        self._motors[self.number_motors] = Motor(motor_type,
+        if motor_name in [x.name for x in self.motors.values()]:
+            raise ValueError(f'The motor name "{motor_name}" is not unique!')
+        self._motors[self.number_motors] = Motor(motor_name, 
+                                                 motor_type,
                                                  self.devices[device],
                                                  fmc_slot,
                                                  port_number,
