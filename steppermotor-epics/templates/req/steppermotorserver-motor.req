@@ -17,6 +17,8 @@ $(Server)/$(Motor)/InControl/enableAutostart
 $(Server)/$(Motor)/InControl/enableFullStepping
 $(Server)/$(Motor)/InControl/resetError
 $(Server)/$(Motor)/InControl/enable
+$(Server)/$(Motor)/InControl/calibrate
+$(Server)/$(Motor)/InControl/determineTolerance
 $(Server)/$(Motor)/InSwlimits/enable
 $(Server)/$(Motor)/InSwlimits/positionMaxSteps
 $(Server)/$(Motor)/InSwlimits/positionMinSteps

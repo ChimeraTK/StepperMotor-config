@@ -27,58 +27,73 @@
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/isAvailable" />
             </record>
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/+{:variableName}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
             <field type="EGU" value="+{:unit}" />
             <record pvName="$(Server)/$(Motor)/receiveTimeActual" source="steppermotorserver.Motor1/readback/actualReceiveTime" />
             <record pvName="$(Server)/$(Motor)/cycleTimeActual" source="steppermotorserver.Motor1/readback/actualCycleTime" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/position/+{:variableName}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
             <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/Position/actualValue" source="steppermotorserver.Motor1/readback/position/actualValue" />
             <record pvName="$(Server)/$(Motor)/Position/encoder" source="steppermotorserver.Motor1/readback/position/encoder" />
             <record pvName="$(Server)/$(Motor)/Position/targetValue" source="steppermotorserver.Motor1/readback/position/targetValue" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/speedLimit/+{:variableName}" />
-            <field type="EGU" value="" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
+            <field type="EGU" value="Hz" />
             <record pvName="$(Server)/$(Motor)/SpeedLimit/userValue" source="steppermotorserver.Motor1/readback/speedLimit/userValue" />
             <record pvName="$(Server)/$(Motor)/SpeedLimit/maxValue" source="steppermotorserver.Motor1/readback/speedLimit/maxValue" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/currentLimit/+{:variableName}" />
-            <field type="EGU" value="" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
+            <field type="EGU" value="A" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/maxValue" source="steppermotorserver.Motor1/readback/currentLimit/maxValue" />
             <record pvName="$(Server)/$(Motor)/CurrentLimit/userValue" source="steppermotorserver.Motor1/readback/currentLimit/userValue" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/swLimits/+{:variableName}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
             <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/SwLimit/positionMax" source="steppermotorserver.Motor1/readback/swLimits/maxPosition" />
             <record pvName="$(Server)/$(Motor)/SwLimit/positionMin" source="steppermotorserver.Motor1/readback/swLimits/minPosition" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/+{:variableName}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
             <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/EndswitchPositive/position" source="steppermotorserver.Motor1/readback/positiveEndSwitch/position" />
             <record pvName="$(Server)/$(Motor)/EndswitchPositive/tolerance" source="steppermotorserver.Motor1/readback/positiveEndSwitch/tolerance" />
         </recordgroup>
-        <recordgroup type="ai" autosave="false">
+        <recordgroup type="aai" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/+{:variableName}" />
+            <field type="FTVL" value="+{:value_type}" />
+            <field type="NELM" value="1" />
             <field type="EGU" value="" />
             <record pvName="$(Server)/$(Motor)/EndswitchNegative/position" source="steppermotorserver.Motor1/readback/negativeEndSwitch/position" />
             <record pvName="$(Server)/$(Motor)/EndswitchNegative/tolerance" source="steppermotorserver.Motor1/readback/negativeEndSwitch/tolerance" />
         </recordgroup>
         <recordgroup type="lsi" autosave="false">
             <field type="SCAN" value="1 second" />
+            <field type="SIZV" value="255" />
             <record pvName="$(Server)/$(Motor)/InNotification/message" source="">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/notification/message" />
             </record>
@@ -101,7 +116,7 @@
             <field type="EGU" value="+{:unit}" />
             <field type="PINI" value="1" />
             <record pvName="$(Server)/$(Motor)/InUserlimits/current" source="steppermotorserver.Motor1/controlInput/userLimits/current" />
-            <record pvName="$(Server)/$(Motor)/InUserlimits/speed" source="steppermotorserver.Motor1/controlInput/userLimits/speed"><field type="EGU" value="" /></record>
+            <record pvName="$(Server)/$(Motor)/InUserlimits/speed" source="steppermotorserver.Motor1/controlInput/userLimits/speed"><field type="EGU" value="Hz" /></record>
         </recordgroup>
         <recordgroup type="ao" autosave="true">
             <field type="SCAN" value="Passive" />
@@ -146,7 +161,7 @@
             <field type="SCAN" value="Passive" />
             <field type="OUT" value="@$(APP) Motor$(MotorNr)/controlInput/control/+{:variableName}" />
             <field type="EGU" value="" />
-            <field type="PINI" value="1" />
+            <field type="PINI" value="0" />
             <record pvName="$(Server)/$(Motor)/InControl/start" source="steppermotorserver.Motor1/controlInput/control/start" />
             <record pvName="$(Server)/$(Motor)/InControl/emergencyStop" source="steppermotorserver.Motor1/controlInput/control/emergencyStop" />
             <record pvName="$(Server)/$(Motor)/InControl/disable" source="steppermotorserver.Motor1/controlInput/control/disable" />
@@ -155,6 +170,8 @@
             <record pvName="$(Server)/$(Motor)/InControl/enableFullStepping" source="steppermotorserver.Motor1/controlInput/control/enableFullStepping" />
             <record pvName="$(Server)/$(Motor)/InControl/resetError" source="steppermotorserver.Motor1/controlInput/control/resetError" />
             <record pvName="$(Server)/$(Motor)/InControl/enable" source="steppermotorserver.Motor1/controlInput/control/enable" />
+            <record pvName="$(Server)/$(Motor)/InControl/calibrate" source="steppermotorserver.Motor1/controlInput/control/calibrate" />
+            <record pvName="$(Server)/$(Motor)/InControl/determineTolerance" source="steppermotorserver.Motor1/controlInput/control/determineTolerance" />
         </recordgroup>
         <recordgroup type="longout" autosave="true">
             <field type="SCAN" value="Passive" />
@@ -253,7 +270,7 @@
             <record pvName="$(Server)/Motors/driverCardName" source="steppermotorserver.Motors/motorDriverCardName" />
             <record pvName="$(Server)/Motors/driverModuleName" source="steppermotorserver.Motors/motorDriverModuleName" />
             <record pvName="$(Server)/Motors/driverId" source="steppermotorserver.Motors/motorDriverId">
-                <field type="FTVL" value="SHORT" /><!--Override necessary, because IOC recognizes it as SHORT instead of USHORT-->
+                <field type="FTVL" value="LONG" /><!--Override necessary, because IOC recognizes it as LONG instead of USHORT-->
             </record>
             <record pvName="$(Server)/Motors/driverConfigFile" source="steppermotorserver.Motors/motorDriverConfigFile" />
             <record pvName="$(Server)/Motors/userUnitToStepsRatio" source="steppermotorserver.Motors/userUnitToStepsRatio" />
