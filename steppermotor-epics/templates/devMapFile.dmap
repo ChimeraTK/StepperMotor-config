@@ -1,4 +1,4 @@
 ##mako
 % for device_name, device in motor_cfg.devices.items():
-${device_name}    (pci:pcieunis${device.slot}?map=${device.mapp_file})
+${device_name}    (pci:pcieunis${device.slot}?map=mapp/${device.mapp_file})
 % endfor
