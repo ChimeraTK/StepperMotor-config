@@ -22,11 +22,11 @@ if ACCELERATOR == 'TARLA':
         #TODO clean up MOTORDRIVER_CFG_FILE variable
         MOTORDRIVER_CFG_FILE='Limes122-MotorDriverCardConfig-Tarla.xml'
         motor_cfg = MotorConfig()
-        motor_cfg.add_device('MotorDriver1', 'FMC25', 3, 'llrf_resonance_ctrl', FIRMWARE_REV_MOTDRV)
+        motor_cfg.add_device('MotorDriver1', 'FMC25_70t', 3, 'llrf_resonance_ctrl', '1.1.0-9-g193bac26')
         motor_cfg.add_motor('Test1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 0, MOTORDRIVER_CFG_FILE)
         motor_cfg.add_motor('Test2', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 1, MOTORDRIVER_CFG_FILE)
         motor_cfg.add_motor('Test3', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC2', 0, MOTORDRIVER_CFG_FILE)
         motor_cfg.add_motor('Test4', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC2', 1, MOTORDRIVER_CFG_FILE)
-        motor_cfg.add_device('MotorDriver2', 'FMC25', 4, 'llrf_resonance_ctrl', FIRMWARE_REV_MOTDRV)
+        motor_cfg.add_device('MotorDriver2', 'FMC25_70t', 4, 'llrf_resonance_ctrl', '1.1.0-9-g193bac26')
         motor_cfg.add_motor('Test5', 'LinearMotorWithReferenceSwitch', 'MotorDriver2', 'FMC1', 0, MOTORDRIVER_CFG_FILE)
         motor_cfg.add_motor('Test6', 'LinearMotorWithReferenceSwitch', 'MotorDriver2', 'FMC1', 1, MOTORDRIVER_CFG_FILE)
