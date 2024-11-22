@@ -1,45 +1,72 @@
-Descriptions for PVs defined in "/home/pnonn/llrfctrlConfigs/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-01_00_04-dbGen.xml"
+Descriptions for PVs defined in "/home/pnonn/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-01_00_04-dbGen.xml"
 
-$(Server)/$(Motor)/receiveTimeActual (aai): Driver of motor 1 - Signals read from the motor driver - Actual time required to read all variables in this module from the HW.
-$(Server)/$(Motor)/cycleTimeActual (aai): Driver of motor 1 - Signals read from the motor driver - Actual cycle time by which the HW is being read
-$(Server)/$(Motor)/Position/actualValue (aai): Driver of motor 1 - Signals read from the motor driver - Position data - Actual position
-$(Server)/$(Motor)/Position/encoder (aai): Driver of motor 1 - Signals read from the motor driver - Position data - Encoder readback
-$(Server)/$(Motor)/Position/targetValue (aai): Driver of motor 1 - Signals read from the motor driver - Position data - Readback of the target position
-$(Server)/$(Motor)/SpeedLimit/userValue (aai): Driver of motor 1 - Signals read from the motor driver - Speed data - Speed limit set for the motor
-$(Server)/$(Motor)/SpeedLimit/maxValue (aai): Driver of motor 1 - Signals read from the motor driver - Speed data - Maximum velocity of the motor
-$(Server)/$(Motor)/CurrentLimit/maxValue (aai): Driver of motor 1 - Signals read from the motor driver - Current data - Maximum velocity of the motor
-$(Server)/$(Motor)/CurrentLimit/userValue (aai): Driver of motor 1 - Signals read from the motor driver - Current data - Speed limit set for the motor
-$(Server)/$(Motor)/SwLimit/positionMax (aai): Driver of motor 1 - Signals read from the motor driver - Status data of SW limits - Max. SW position limit
-$(Server)/$(Motor)/SwLimit/positionMin (aai): Driver of motor 1 - Signals read from the motor driver - Status data of SW limits - Min. SW position limit
-$(Server)/$(Motor)/EndswitchPositive/position (aai): Driver of motor 1 - Signals read from the motor driver - Data of the positive end switch - Position of the positive reference switch
-$(Server)/$(Motor)/EndswitchPositive/tolerance (aai): Driver of motor 1 - Signals read from the motor driver - Data of the positive end switch - Tolerance of the calibrated positive end switch position.
-$(Server)/$(Motor)/EndswitchNegative/position (aai): Driver of motor 1 - Signals read from the motor driver - Data of the negative end switch - Position of the positive reference switch
-$(Server)/$(Motor)/EndswitchNegative/tolerance (aai): Driver of motor 1 - Signals read from the motor driver - Data of the negative end switch - Tolerance of the calibrated positive end switch position.
-$(Server)/$(Motor)/InUserlimits/current (ao): Driver of motor 1 - Handles the control input to the motor driver. - User-definable limits - User current limit for the motor
-$(Server)/$(Motor)/InUserlimits/speed (ao): Driver of motor 1 - Handles the control input to the motor driver. - User-definable limits - User speed limit for the motor
-$(Server)/$(Motor)/InPositionSP/positionRelative (ao): Driver of motor 1 - Handles the control input to the motor driver. - Position setpoints - Initiates a movement relative to the current position
-$(Server)/$(Motor)/InPositionSP/position (ao): Driver of motor 1 - Handles the control input to the motor driver. - Position setpoints - Motor position setpoint
-$(Server)/$(Motor)/InSwlimits/positionMax (ao): Driver of motor 1 - Handles the control input to the motor driver. - Control data of SW limits - Positive SW position limit
-$(Server)/$(Motor)/InSwlimits/positionMin (ao): Driver of motor 1 - Handles the control input to the motor driver. - Control data of SW limits - Negative SW position limit
-$(Server)/$(Motor)/InRefSettings/position (ao): Driver of motor 1 - Handles the control input to the motor driver. - Settings to define the position reference - Writing to this value sets the actual motor position to a given reference
-$(Server)/$(Motor)/InRefSettings/axisTranslation (ao): Driver of motor 1 - Handles the control input to the motor driver. - Settings to define the position reference - Offset to translate axis, i.e. shift the reference point.
-$(Server)/$(Motor)/status (longout): Driver of motor 1 - Signals read from the motor driver
-$(Server)/$(Motor)/InPositionSP/positionStepsRelative (longout): Driver of motor 1 - Handles the control input to the motor driver. - Position setpoints - Initiates a movement relative to the current position
-$(Server)/$(Motor)/InPositionSP/positionSteps (longout): Driver of motor 1 - Handles the control input to the motor driver. - Position setpoints - Motor position setpoint
-$(Server)/$(Motor)/InControl/start (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Start the motor
-$(Server)/$(Motor)/InControl/emergencyStop (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Emergency stop motor
-$(Server)/$(Motor)/InControl/disable (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Disable the motor
-$(Server)/$(Motor)/InControl/stop (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Stop the motor
-$(Server)/$(Motor)/InControl/enableAutostart (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Sets the autostart flag of the motor driver
-$(Server)/$(Motor)/InControl/enableFullStepping (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Enables full-stepping mode of the motor driver, i.e., it will only stop on full steps
-$(Server)/$(Motor)/InControl/resetError (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Reset error state
-$(Server)/$(Motor)/InControl/enable (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Enable the motor
-$(Server)/$(Motor)/InControl/calibrate (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Calibration commands - Calibrates the motor
-$(Server)/$(Motor)/InControl/determineTolerance (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control words of the motor - Calibration commands - Determines tolerance of the end switch positions
-$(Server)/$(Motor)/InSwlimits/enable (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control data of SW limits - Enable SW limits
-$(Server)/$(Motor)/InSwlimits/positionMaxSteps (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control data of SW limits - Positive SW position limit
-$(Server)/$(Motor)/InSwlimits/positionMinSteps (longout): Driver of motor 1 - Handles the control input to the motor driver. - Control data of SW limits - Negative SW position limit
-$(Server)/$(Motor)/InRefSettings/positionSteps (longout): Driver of motor 1 - Handles the control input to the motor driver. - Settings to define the position reference - Writing to this value sets the actual motor position to a given reference
-$(Server)/$(Motor)/InRefSettings/positionEncoder (longout): Driver of motor 1 - Handles the control input to the motor driver. - Settings to define the position reference - Writing to this value sets the actual encoder position to a given reference
-$(Server)/$(Motor)/InRefSettings/axisTranslationSteps (longout): Driver of motor 1 - Handles the control input to the motor driver. - Settings to define the position reference - Offset to translate axis, i.e. shift the reference point.
+$(Server)/$(Motor)/CurrentLimit/maxValue (aai): Current data/Maximum velocity of the motor
+$(Server)/$(Motor)/CurrentLimit/userValue (aai): Current data/Speed limit set for the motor
 $(Server)/$(Motor)/Dummy (longin): None
+$(Server)/$(Motor)/EndswitchNegative/isActive (longin): Data of the negative end switch/Status of negative end switch
+$(Server)/$(Motor)/EndswitchNegative/isAvailable (bi): Data of the negative end switch/Flag whether this end switch is available
+$(Server)/$(Motor)/EndswitchNegative/position (aai): Data of the negative end switch/Position of the positive reference switch
+$(Server)/$(Motor)/EndswitchNegative/positionInSteps (longin): Data of the negative end switch/Position of the positive reference switch
+$(Server)/$(Motor)/EndswitchNegative/tolerance (aai): Data of the negative end switch/Tolerance of the calibrated positive end switch position.
+$(Server)/$(Motor)/EndswitchPositive/isActive (longin): Data of the positive end switch/Status of negative end switch
+$(Server)/$(Motor)/EndswitchPositive/isAvailable (bi): Data of the positive end switch/Flag whether this end switch is available
+$(Server)/$(Motor)/EndswitchPositive/position (aai): Data of the positive end switch/Position of the positive reference switch
+$(Server)/$(Motor)/EndswitchPositive/positionInSteps (longin): Data of the positive end switch/Position of the positive reference switch
+$(Server)/$(Motor)/EndswitchPositive/tolerance (aai): Data of the positive end switch/Tolerance of the calibrated positive end switch position.
+$(Server)/$(Motor)/InControl/calibrate (longout): Calibration commands/Calibrates the motor
+$(Server)/$(Motor)/InControl/determineTolerance (longout): Calibration commands/Determines tolerance of the end switch positions
+$(Server)/$(Motor)/InControl/disable (longout): Control words of the motor/Disable the motor
+$(Server)/$(Motor)/InControl/emergencyStop (longout): Control words of the motor/Emergency stop motor
+$(Server)/$(Motor)/InControl/enable (longout): Control words of the motor/Enable the motor
+$(Server)/$(Motor)/InControl/enableAutostart (longout): Control words of the motor/Sets the autostart flag of the motor driver
+$(Server)/$(Motor)/InControl/enableFullStepping (longout): Control words of the motor/Enables full-stepping mode of the motor driver, i.e., it will only stop on full steps
+$(Server)/$(Motor)/InControl/resetError (longout): Control words of the motor/Reset error state
+$(Server)/$(Motor)/InControl/start (longout): Control words of the motor/Start the motor
+$(Server)/$(Motor)/InControl/stop (longout): Control words of the motor/Stop the motor
+$(Server)/$(Motor)/InDummysignals/dummyMotorStop (longin):  Signals triggering the dummy motor/Stops the dummy motor
+$(Server)/$(Motor)/InDummysignals/dummyMotorTrigger (longin):  Signals triggering the dummy motor/Triggers the dummy motor module after writing to a control input
+$(Server)/$(Motor)/InNotification/hasMessage (bi): Driver of motor 1/Module to propagate states
+$(Server)/$(Motor)/InNotification/message (lsi): Driver of motor 1/Module to propagate states
+$(Server)/$(Motor)/InPositionSP/position (ao): Position setpoints/Motor position setpoint
+$(Server)/$(Motor)/InPositionSP/positionRelative (ao): Position setpoints/Initiates a movement relative to the current position
+$(Server)/$(Motor)/InPositionSP/positionSteps (longout): Position setpoints/Motor position setpoint
+$(Server)/$(Motor)/InPositionSP/positionStepsRelative (longout): Position setpoints/Initiates a movement relative to the current position
+$(Server)/$(Motor)/InRefSettings/axisTranslation (ao): Settings to define the position reference/Offset to translate axis, i.e. shift the reference point.
+$(Server)/$(Motor)/InRefSettings/axisTranslationSteps (longout): Settings to define the position reference/Offset to translate axis, i.e. shift the reference point.
+$(Server)/$(Motor)/InRefSettings/position (ao): Settings to define the position reference/Writing to this value sets the actual motor position to a given reference
+$(Server)/$(Motor)/InRefSettings/positionEncoder (longout): Settings to define the position reference/Writing to this value sets the actual encoder position to a given reference
+$(Server)/$(Motor)/InRefSettings/positionSteps (longout): Settings to define the position reference/Writing to this value sets the actual motor position to a given reference
+$(Server)/$(Motor)/InSwlimits/enable (longout): Control data of SW limits/Enable SW limits
+$(Server)/$(Motor)/InSwlimits/positionMax (ao): Control data of SW limits/Positive SW position limit
+$(Server)/$(Motor)/InSwlimits/positionMaxSteps (longout): Control data of SW limits/Positive SW position limit
+$(Server)/$(Motor)/InSwlimits/positionMin (ao): Control data of SW limits/Negative SW position limit
+$(Server)/$(Motor)/InSwlimits/positionMinSteps (longout): Control data of SW limits/Negative SW position limit
+$(Server)/$(Motor)/InUserlimits/current (ao): User-definable limits/User current limit for the motor
+$(Server)/$(Motor)/InUserlimits/speed (ao): User-definable limits/User speed limit for the motor
+$(Server)/$(Motor)/ModuleStatus/message (lsi): Driver of motor 1/Signals read from the motor driver
+$(Server)/$(Motor)/Modulestatus/status (longin): Driver of motor 1/Signals read from the motor driver
+$(Server)/$(Motor)/Position/actualValue (aai): Position data/Actual position
+$(Server)/$(Motor)/Position/actualValueInSteps (longin): Position data/Actual position ]
+$(Server)/$(Motor)/Position/encoder (aai): Position data/Encoder readback
+$(Server)/$(Motor)/Position/targetValue (aai): Position data/Readback of the target position
+$(Server)/$(Motor)/Position/targetValueInSteps (longin): Position data/Readback of target position
+$(Server)/$(Motor)/SpeedLimit/maxValue (aai): Speed data/Maximum velocity of the motor
+$(Server)/$(Motor)/SpeedLimit/userValue (aai): Speed data/Speed limit set for the motor
+$(Server)/$(Motor)/Status/autostartEnabled (longin): Status data of the motor driver/Flags if autostart mode is active
+$(Server)/$(Motor)/Status/calibrationMode (longin): Status data of the motor driver/Current calibration mode
+$(Server)/$(Motor)/Status/encoderReadoutMode (longin): Status data of the motor driver/Encoder readout mode.
+$(Server)/$(Motor)/Status/errorId (longin): Status data of the motor driver/Error ID of the motor driver
+$(Server)/$(Motor)/Status/isEnabled (longin): Status data of the motor driver/Motor current enable status
+$(Server)/$(Motor)/Status/isFullStepping (longin): Status data of the motor driver/Flags if full-stepping mode of the driver is active.
+$(Server)/$(Motor)/Status/isIdle (longin): Status data of the motor driver/Flags if system is idle and a movement or calibration can be started
+$(Server)/$(Motor)/Status/message (lsi): Handles the control input to the motor driver./Message for user notification from ControlInput module
+$(Server)/$(Motor)/Status/motorState (lsi): Handles the control input to the motor driver./State of motor control
+$(Server)/$(Motor)/StatusRB/state (lsi): Driver of motor 1/Module to propagate states
+$(Server)/$(Motor)/SwLimit/positionMax (aai): Status data of SW limits/Max. SW position limit
+$(Server)/$(Motor)/SwLimit/positionMin (aai): Status data of SW limits/Min. SW position limit
+$(Server)/$(Motor)/Swlimits/isEnabled (longin): Status data of SW limits/SW limit feature enabled
+$(Server)/$(Motor)/Swlimits/maxPositionInSteps (longin): Status data of SW limits/Max. SW position limit
+$(Server)/$(Motor)/Swlimits/minPositionInSteps (longin): Status data of SW limits/Min. SW position limit
+$(Server)/$(Motor)/cycleTimeActual (aai): Signals read from the motor driver/Actual cycle time by which the HW is being read
+$(Server)/$(Motor)/receiveTimeActual (aai): Signals read from the motor driver/Actual time required to read all variables in this module from the HW.
+$(Server)/$(Motor)/status (longout): Driver of motor 1/Signals read from the motor driver

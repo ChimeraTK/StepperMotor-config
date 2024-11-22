@@ -3,17 +3,19 @@
 """@package docstring
 Tool to map ChimeraTK variables and possible other sources to EPICS database via
 a configuration xml-file.
-Written and tested for Python 3.5.2 by Patrick Nonn for DESY/MSK
+Written and tested for Python 3.8 by Patrick Nonn for DESY/MSK
 """
 
 import argparse  # Parse command line arguments
 import os  # For file manipulation
+import re
 import sys  # To access stdout and stdin
 import xml.etree.ElementTree as xmlEleTree  # xml parser
 from typing import List, Dict, Any, Union, Optional  # Type hints
 from datetime import datetime  # To access system time
 
-VERSION = '1.1'
+
+VERSION = '1.2'
 
 '''
 Changelog:
@@ -23,6 +25,10 @@ Changelog:
     04.Nov.2022: Added support for boolean, void and unknown value types
 1.1:
     13.Oct.2023: Added mako-hashtag to output db-files
+1.2:
+    14.Oct.2024: Limited aliasing for generated config files to one level
+    17.Oct.2024: Added list of unused source file entries to log
+    04.Nov.2024: Added ability to process <mask> and <record> entries under <ignore>
 '''
 
 
@@ -31,15 +37,13 @@ def abbreviate(in_word: str) -> str:
     """
     Function to abbreviate strings by look-up table.
     :param in_word: Word to be abbreviated.
-    :type in_word: str
     :return: Abbreviation, if in_word is in "abbr"-dictionary, in_word else.
-    :rtype: str
     """
     if not isinstance(in_word, str):
         raise TypeError('The argument "input" of function "abbreviate" has to be of type string!')
     abbr = {
-        'amplitude': 'amp',
-        'average': 'avg',
+        'amplitude': 'ampl',
+        'average': 'avrg',
         'calibration': 'cal',
         'configuration': 'cfg',
         'correction': 'corr',
@@ -55,7 +59,7 @@ def abbreviate(in_word: str) -> str:
         'standard': 'std',
         'statistics': 'stats',
         'watchdog': 'wd',
-        'adcboard0': 'adcb0',
+        'adcboard0': 'adcbrd0',
         'channel0': 'ch0',
         'channel1': 'ch1',
         'channel2': 'ch2',
@@ -64,16 +68,15 @@ def abbreviate(in_word: str) -> str:
         'channel5': 'ch5',
         'channel6': 'ch6',
         'channel7': 'ch7',
-        'actual': 'act',
-        'automation': 'auto',
+        'automation': 'atmtn',
         'feedback': 'fb',
         'feedforward': 'ff',
         'setpoint': 'sp',
         'vectormodulator': 'vm',
         'amplitudephaseerror': 'aperror',
-        'averagingwindow': 'avgwin',
-        'cascadeinputautomation': 'cadeinauto',
-        'cascadeinputovc': 'cadeinovc',
+        'averagingwindow': 'avrgwin',
+        'cascadeinputautomation': 'cscdinputauto',
+        'cascadeinputovc': 'cscdinputovc',
         'commoncalibration': 'commoncal',
         'controller': 'ctrl',
         'devices': 'dev',
@@ -86,7 +89,7 @@ def abbreviate(in_word: str) -> str:
         'smithcoefficients': 'smithcoeff',
         'vectorsum': 'vs',
         'proportional': 'prop',
-        'datalosscounter': 'dlcount'
+        'datalosscounter': 'dlcounter'
     }
     try:
         output = abbr[in_word]
@@ -97,22 +100,41 @@ def abbreviate(in_word: str) -> str:
 
 # Class for text formatting
 class AsciiFormat:
-    """
-    Class to provide formatted strings for stdout.
-    """
+    """Class to provide formatted strings for stdout."""
     warning = '\033[1m\033[93mWarning:\033[0m '
     error = '\033[1m\033[91mError:\033[0m '
+    palette = {'RED': '\033[31m',
+               'GREEN': '\033[32m',
+               'YELLOW': '\033[33m',
+               'BLUE': '\033[34m',
+               'MAGENTA': '\033[35m',
+               'CYAN': '\033[36m',
+               'DGRAY': '\033[90m',
+               'BOLDRED': '\033[1;31m',
+               'BOLDGREEN': '\033[1;32m',
+               'BOLDYELLOW': '\033[1;33m',
+               'BOLDBLUE': '\033[1;34m',
+               'BOLDMAGENTA': '\033[1;35m',
+               'BOLDCYAN': '\033[1;36m',
+               'BOLDDGRAY': '\033[1;90m'}
+    reset = '\033[0m'
 
     @staticmethod
-    def bold(text):
-        """
-        Makes the input be printed out as bold test in stdout
+    def bold(text: str) -> str:
+        """Makes the input be printed out as bold test in stdout
         :param text: Input text
-        :type text: Any
-        :return: Formatted text
-        :rtype: str
+        :return: Bold-formatted text
         """
-        return '\033[1m' + str(text) + '\033[0m'
+        return f'\033[1m{text}\033[0m'
+
+    @staticmethod
+    def colored(text: str, color: str) -> str:
+        """Adds ASCII-format specifiers for a range of colors to a string
+        :param text: ASCII test to be colored
+        :param color: Color from AsciiFormat.palette to color the text
+        :return: Color-formatted text
+        """
+        return AsciiFormat.palette[color.upper()] + text + AsciiFormat.reset
 
 
 # Define Exceptions
@@ -132,7 +154,7 @@ class SkipLoop(Exception):
 
 
 class SourceLoadError(Exception):
-    """Exception to handle unseccessfull attempts to load sourcefile"""
+    """Exception to handle unsuccessful attempts to load sourcefile"""
 
     def __init__(self, message):
         self.message = message
@@ -172,15 +194,13 @@ class Logging:
         else:  # logfile_path points to existing file
             self.logfile_path = os.path.abspath(logfile_path)
         with open(self.logfile_path, 'a') as f:
-            f.write('--------------\n' + str(datetime.now()) + ': Beginning run of dbGenerator\n')
+            f.write(f'{"-" * 80}\n{datetime.now()}: Beginning run of dbGenerator\n')
 
     def _markdown(self, in_str: str) -> str:
         """
         Recursive method to change strings containing ascii formatting for stdout to plain ascii.
         :param in_str: String to be changed
-        :type in_str: str
         :return: String with changed formatting
-        :rtype: str
         """
         if not isinstance(in_str, str):
             raise TypeError('_markdown takes only string type attributes')
@@ -205,31 +225,21 @@ class Logging:
         """
         Writes to log file and stderr.
         :param log_message: Message to be written, formatted for stderr/stdout
-        :type log_message: str
         """
         if not isinstance(log_message, str):
             raise TypeError('Log takes only string type attributes')
         if log_message.find(AsciiFormat.warning) != -1:  # Check, if string contains warning tag
-            sys.stderr.write(log_message + '\n')
+            sys.stderr.write(f'{log_message}\n')
             with open(self.logfile_path, 'a') as f:
-                f.write(str(datetime.now()) +
-                        ': ' +
-                        self._markdown(log_message) +
-                        '\n')
+                f.write(f'{datetime.now()}: {self._markdown(log_message)}\n')
         elif log_message.find(AsciiFormat.error) != -1:  # Check, if string contains error tag
-            sys.stderr.write(log_message + '\n')
+            sys.stderr.write(f'{log_message}\n')
             with open(self.logfile_path, 'a') as f:
-                f.write(str(datetime.now()) +
-                        ': ' +
-                        self._markdown(log_message) +
-                        '\n')
+                f.write(f'{datetime.now()}: {self._markdown(log_message)}\n')
         else:  # When no tag is found
-            sys.stdout.write(log_message + '\n')
+            sys.stdout.write(f'{log_message}\n')
             with open(self.logfile_path, 'a') as f:
-                f.write(str(datetime.now()) +
-                        ': ' +
-                        self._markdown(log_message) +
-                        '\n')
+                f.write(f'{datetime.now()}: {self._markdown(log_message)}\n')
 
 
 class Table:
@@ -238,22 +248,18 @@ class Table:
     def __init__(self,
                  column_names: Union[str, List[str]],
                  content_list: Union[List[List[str]], List[Dict[str, Any]], None] = None):
-        """
-        Constructor of Table object
-
-        :param column_names: List of strings, naming the columns of the table.
-        :type column_names: list
-        :param content_list: List containing either lists or dicts holding table content.
-        :type content_list: list
+        """Constructor of Table object
+        :param column_names: Headline, naming the columns of the table.
+        :param content_list: Table content.
         """
         if not isinstance(column_names, (list, str)):  # Check type
             raise TypeError('The first attribute of table() has to be of type list or string!')
         if isinstance(column_names, str):  # Conversion to list type if it is string
             column_names = [column_names]
         elif not all(map(lambda x: isinstance(x, str), column_names)):  # Check for list content being string
-            raise TypeError('The first attribute of table() has to be a list of strings!')
+            raise TypeError('The first attribute of table object has to be a list containing strings!')
         elif len(column_names) != len(set(column_names)):  # Check for duplicates
-            raise AttributeError('The first attribute of table() can\'t contain duplicates!')
+            raise AttributeError('The first attribute of table object can\'t contain duplicates!')
         else:
             self._head = column_names  # type: List[str]
         if content_list is not None:  # Process content given at initialization
@@ -281,23 +287,17 @@ class Table:
         else:
             self._table = []
 
-    def __repr__(self):
-        """
-        Magic method, called when Table object is printed
-
+    def __repr__(self) -> str:
+        """Magic method, called when Table object is printed
         :return: Object description
-        :rtype: str
         """
-        return 'Table object with ' + str(len(self._table)) + ' entries.'
+        return f'Table object with {len(self._table)} entries.'
 
-    def __str__(self):
-        """
-        Magic method, called by str()
-
+    def __str__(self) -> str:
+        """Magic method, called by str()
         :return: Content of Table object in table-like format
-        :rtype: str
         """
-        output = ['\033[1m' + str(self._head) + '\033[0m']
+        output = [f'\033[1m{self._head}\033[0m']
         for table_row in self._table:
             row_list = []
             for col_name in self._head:
@@ -306,13 +306,9 @@ class Table:
         return '\n'.join(output)
 
     def __getitem__(self, col: str) -> List[Any]:
-        """
-        Magic method, called by []-accessor
-
+        """Magic method, called by []-accessor
         :param col: Column name, has to be in "_head".
-        :type col: str
         :return: Content of column, which name is matching "col".
-        :rtype: list
         """
         if col in self._head:
             output = []  # type: List[Any]
@@ -320,14 +316,11 @@ class Table:
                 output.append(table_row[col])
             return output
         else:
-            raise AttributeError('table has no column named "' + str(col) + '"')
+            raise AttributeError(f'Table has no column named "{col}"')
 
     def __len__(self) -> int:
-        """
-        Magic method, called by len()
-
+        """Magic method, called by len()
         :return: Number of rows (entries) in table
-        :rtype: int
         """
         return len(self._table)
 
@@ -346,7 +339,7 @@ class Table:
         else:
             self._row = self._table[self._index]
             output = self._row
-            self._index = self._index + 1
+            self._index += 1
             return output
 
     @property
@@ -358,17 +351,14 @@ class Table:
         return out
 
     def add(self, row: Dict[str, Any]):
-        """
-        Method to add row to Table object.
-
+        """Method to add row to Table object.
         :param row: Row to be added to table. May have content beyond the needed keys.
-        :type row: dict
         """
         if not isinstance(row, dict):  # Check Type
             raise TypeError('table.add() expects a dictionary as argument')
         if len(row) < len(self._head):  # Check length
-            raise ValueError('The argument of add_row has to be a dictionary with the length of at least '
-                             + str(len(self._head)))
+            raise ValueError(f'The argument of add_row has to be a dictionary with the length of at least '
+                             f'{len(self._head)}')
         new_row = {}
         for col in self._head:  # Add only keys defined in head to the table
             try:
@@ -379,11 +369,8 @@ class Table:
         self._table.append(new_row)
 
     def remove_column(self, col_name: str):
-        """
-        Method to remove column by column name
-
+        """Method to remove column by column name
         :param col_name: Name of the column to be removed.
-        :type col_name: str
         """
         if not isinstance(col_name, str):
             raise TypeError('Attribute "col_name" of method "remove_column" has to be of type string.')
@@ -394,13 +381,10 @@ class Table:
             entry.pop(col_name, None)
 
     def query(self, pattern: Union[Dict[str, Any], str]) -> Union[List[Dict[str, Any]], None]:
-        """
-        Method to search the table for either all rows with a field matching pattern string or all rows where the
+        """Method to search the table for either all rows with a field matching pattern string or all rows where the
         content of column, defined in pattern dictionary, matches the value, associated in dictionary.
-
         :param pattern: Search pattern, either as string, searched in all columns,
         or dictionaries, defining column and object to be searched as key/value pairs.
-        :type pattern: str or dict
         :return: List of dictionaries, holding the result of the query, or None, if nothing was found
         """
         result = []
@@ -412,7 +396,7 @@ class Table:
                 if pattern_key in self._head:
                     result = list(filter(lambda x: x[pattern_key] == pattern[pattern_key], result))
                 else:
-                    raise ValueError(pattern_key + ' is not a column in table!')
+                    raise ValueError(f'{pattern_key} is not a column in table!')
         elif isinstance(pattern, str):
             for head_key in self._head:
                 result += list(filter(lambda x: x[head_key] == pattern, self._table))
@@ -428,11 +412,8 @@ class DbFile(Table):
     def __init__(self, dbfile_path: str, macro_reserve: int = 0, logging: Any = sys.stderr):
         """
         :param dbfile_path: Path to write db-file to.
-        :type dbfile_path: str
         :param macro_reserve: Number of characters, reserved in PV name to be filled by macro-expansion
-        :type macro_reserve: int
         :param logging: Object with 'write()' method, i.e. Logger or sys.stderr
-        :type logging: object
         """
         super().__init__(['devicePath', 'pvName', 'recordType', 'fields'], None)
         if not callable(getattr(logging, 'write')):
@@ -445,48 +426,36 @@ class DbFile(Table):
             raise AttributeError('Argument "dbfile_path" refers to a non-existing directory!')
         self.file_path = os.path.abspath(dbfile_path)
         if os.path.isfile(self.file_path):
-            self.log.write(AsciiFormat.warning + 'File "' + self.file_path + '" will be overwritten!')
+            self.log.write(f'{AsciiFormat.warning}File "{self.file_path}" will be overwritten!')
         if not isinstance(macro_reserve, int):
             raise TypeError('Attribute "macro_reserve" has to be of type int!')
         self.macro_reserve = macro_reserve
 
     def __getitem__(self, pv_id: str) -> dict:
-        """
-        Magic method, accesses dataset (row) with the field 'devicePath' matching pv_id
-        Raises
+        """Magic method, accesses dataset (row) with the field 'devicePath' matching pv_id
         :param pv_id: Term to match in field 'devicePath'
-        :type pv_id: str
         :return: Dataset with matching devicePath
-        :rtype: dict
         """
         if not isinstance(pv_id, str):  # Check Type
             raise TypeError('Attribute of PVDb[] has to be string.')
         query_result = super().query({'devicePath': pv_id})  # Find Entry
         if not query_result:  # Check existence
-            self.log.write(AsciiFormat.error
-                           + 'PV with device path '
-                           + pv_id + ' does not exist in PVDb')
+            self.log.write(f'{AsciiFormat.error}PV with device path {pv_id} does not exist in PVDb!')
         elif len(query_result) == 1:  # Usual case
             index = self._table.index(query_result[0])
             return self._table[index]
         elif len(query_result) > 1:  # Check Multiple Entries
-            self.log.write(AsciiFormat.error +
-                           'Multiple PVs with device path '
-                           + pv_id
-                           + ' found in PVDb! PVDb might be corrupted!')
+            self.log.write(f'{AsciiFormat.error}Multiple PVs with device path {pv_id} found in PVDb!'
+                           f' PVDb might be corrupted!')
             index = self._table.index(query_result[0])
             return self._table[index]
         else:  # For unforeseen cases
             raise RuntimeError('Something has gone wrong!')
 
     def _remove_macros(self, in_str: str) -> str:
-        """
-        Recursively remove Macros from input
-
+        """Recursively remove Macros from input
         :param in_str: String to remove macros from.
-        :type in_str: str
         :return: String with macro found first, removed.
-        :rtype: str
         """
         if not isinstance(in_str, str):
             raise TypeError('Attribute of method "_remove_macros" has to be of type string!')
@@ -499,29 +468,23 @@ class DbFile(Table):
             return self._remove_macros(output)
 
     def add(self, record: Dict[str, Any]):
-        """
-        Adds EPICS record to database, including some checking for compliance with EPICS.
+        """Adds EPICS record to database, including some checking for compliance with EPICS.
         :param record: EPICS record to be added to database
-        :type record: dict
         """
         # Type check
         record_elements = {'devicePath': str, 'pvName': str, 'recordType': str, 'fields': dict}
         for entry in record_elements:
             try:  # pycharm mistakes dict-[] accessor for type hint -> using __getitem__ instead
                 if not isinstance(record[entry], record_elements.__getitem__(entry)):
-                    raise TypeError(AsciiFormat.error + 'Type mismatch in "record"!')
+                    raise TypeError(f'{AsciiFormat.error}Type mismatch in "record"!')
             except KeyError:
-                raise AttributeError(AsciiFormat.error + 'Attribute "record" is missing at least one key!')
+                raise AttributeError(f'{AsciiFormat.error}Attribute "record" is missing at least one key!')
         # Check length of PV name
         pv_name_max = 39
         length_pv_name = len(self._remove_macros(record['pvName'])) + self.macro_reserve
         if length_pv_name > pv_name_max:
-            self.log.write(AsciiFormat.warning
-                           + 'PV name "'
-                           + record['pvName']
-                           + '" is '
-                           + str(length_pv_name - pv_name_max)
-                           + ' characters too long!')
+            self.log.write(f'{AsciiFormat.warning}PV name "{record["pvName"]}" is '
+                           f'{length_pv_name - pv_name_max} characters too long!')
         # Check record type
         known_record_types = ['int64out',
                               'int64in',
@@ -558,11 +521,8 @@ class DbFile(Table):
                               'aSub',
                               'permissive']
         if not record['recordType'] in known_record_types:
-            self.log.write(AsciiFormat.error
-                           + 'PV "'
-                           + record['pvName']
-                           + '" has unknown record type: '
-                           + record['recordType'])
+            self.log.write(f'{AsciiFormat.error}PV "{record["pvName"]}" '
+                           f'has unknown record type: {record["recordType"]}')
             raise SkipLoop
         # Convert c-style variable types in EPICS counterparts
         type_conversion = {'int64': 'INT64',
@@ -587,10 +547,8 @@ class DbFile(Table):
         super().add(record)
 
     def write_db_file(self, source: Optional[str] = None):
-        """
-        Generate EPICS db file from database
+        """Generate EPICS db file from database
         :param source: Config file used for generation, for comment at head of file.
-        :type source: str
         """
         # Assemble file content as one string
         out_str = f'##mako -*- coding: utf-8 -*-\n# File generated by dbGenerator version {str(VERSION)}'
@@ -619,11 +577,8 @@ class XmlSource(Table):
                  aliases: Optional[Dict[str, List[str]]] = None):
         """
         :param xml_filepath: Filename or path to xml file to be parsed
-        :type xml_filepath: str, path-like
         :param logger: Object with "write" method, i.e. sys.stderr or Logging-class object
-        :type logger: object
         :param aliases: Aliases for expansion
-        :type aliases: dict
         """
         if not os.path.isfile(xml_filepath):
             raise AttributeError(str(xml_filepath) + ' is not an existing file!')
@@ -648,21 +603,12 @@ class XmlSource(Table):
         try:
             self._tree = xmlEleTree.parse(self.file)
         except FileNotFoundError:
-            raise SourceLoadError(AsciiFormat.error
-                                  + 'File "'
-                                  + self.file
-                                  + '" not found!')
+            raise SourceLoadError(f'{AsciiFormat.error}File "{self.file}" not found!')
         except xmlEleTree.ParseError:
-            raise SourceLoadError(AsciiFormat.error
-                                  + 'File "'
-                                  + self.file
-                                  + '" can not be parsed! Corrupt/not xml file?')
+            raise SourceLoadError(f'{AsciiFormat.error}File "{self.file}" can not be parsed! Corrupt/not xml file?')
         self._root = self._tree.getroot()
-        if self._root.tag != self.namespace + 'application':
-            raise SourceLoadError(AsciiFormat.error
-                                  + 'File "'
-                                  + self.file
-                                  + '" seems not to be a ChimeraTK variable file!')
+        if self._root.tag != f'{self.namespace}application':
+            raise SourceLoadError(f'{AsciiFormat.error}File "{self.file}" seems not to be a ChimeraTK variable file!')
         self.application = self._root.get('name')
         self._make_index(self._root)
         # Extract Information from source xml
@@ -679,12 +625,8 @@ class XmlSource(Table):
                     try:
                         var_data[val_key] = variable['xml_address'].find(self.namespace + val_key).text
                     except AttributeError:
-                        self.logger.write(AsciiFormat.error
-                                          + 'Attribute "'
-                                          + val_key
-                                          + '" not found in '
-                                          + AsciiFormat.bold(var_path + var_name)
-                                          + '!')
+                        self.logger.write(f'{AsciiFormat.error}Attribute "{val_key}" not found in '
+                                          f'{AsciiFormat.bold(var_path + var_name)}!')
                         if val_key in ['direction', 'numberOfElements']:
                             raise SkipLoop
             except SkipLoop:
@@ -703,44 +645,31 @@ class XmlSource(Table):
             })
 
     def __getitem__(self, search_str: str) -> Dict[str, Any]:
-        """
-        Magic method, provides []-accessor.
-
+        """Magic method, provides []-accessor.
         :param search_str: String to be found in 'Alias'-column
-        :type search_str: str
         :return: Entry, whose 'Alias' column in matching 'search_str'
-        :rtype: dict
         """
         if not isinstance(search_str, str):  # Check Type
             raise TypeError('Attribute of XmlSource[] has to be string.')
         query_result = self.query({'address': search_str})  # Find Entry
         if query_result is None:  # Check existence
-            self.logger.write(AsciiFormat.error
-                              + 'Entry with Address '
-                              + search_str
-                              + ' does not exist in XmlSource')
+            self.logger.write(f'{AsciiFormat.error}Entry with Address {search_str} does not exist in XmlSource')
         elif len(query_result) == 1:  # Usual case
             index = self._table.index(query_result[0])
             return self._table[index]
         elif len(query_result) > 1:  # Check Multiple Entries
-            self.logger.write(AsciiFormat.error +
-                              'Multiple entries with ID '
-                              + search_str
-                              + ' found in XmlSource! Database is corrupted!')
+            self.logger.write(f'{AsciiFormat.error}Multiple entries with ID {search_str} found in XmlSource!'
+                              f' Database is corrupted!')
             index = self._table.index(query_result[0])
             return self._table[index]
         else:  # For unforeseen cases
             raise RuntimeError('Something has gone wrong!')
 
     def _make_index(self, xml_node: Any, pv_path: str = ''):
-        """
-        Recursive method to iterate through the xml tree and isolate the 'variables'
+        """Recursive method to iterate through the xml tree and isolate the 'variables'
         while maintaining the path in order to generate an index.
-
         :param xml_node: xml node to recurse over
-        :type xml_node: object(xmlElementTree.Element)
         :param pv_path: Path to the node, from which the function is called.
-        :type pv_path: str
         """
         for v in xml_node.findall(self.namespace + 'variable'):
             self._index.append({'xml_address': v, 'var_path': pv_path, 'var_name': v.get('name')})
@@ -757,12 +686,10 @@ class XmlSource(Table):
         raise AttributeError("'XmlSource' object has no attribute 'add'")
 
     def column(self, column_head: str) -> List[Any]:
-        """
-        Returns content of column named "column_head", as Table[column_head] would do.
+        """Replaces overridden []-accessor function from parent class.
+        Returns content of column named "column_head".
         :param column_head: Name of column to be extracted
-        :type column_head: str
         :return: Content of column "column_head"
-        :rtype: list
         """
         return super().__getitem__(column_head)
 
@@ -773,9 +700,7 @@ class EpicsCfg:
     def __init__(self, cfg_file_path: str, logger: Any = sys.stderr):
         """
         :param cfg_file_path: Valid path to file or directory
-        :type cfg_file_path: str
         :param logger: Where messages are written to
-        :type logger: Object with callable write function
         """
         if not callable(getattr(logger, 'write')):
             raise AttributeError('Attribute "logger" of class XmlSource has to have a callable method "write(str)"')
@@ -785,21 +710,17 @@ class EpicsCfg:
         self._cfg_abspath = os.path.abspath(cfg_file_path)
         self._cfg_dir, self._cfg_file = os.path.split(self._cfg_abspath)
         if not os.path.isdir(self._cfg_dir):
-            raise AttributeError(self._cfg_dir + ' is not a valid path to an existing directory!')
+            raise AttributeError(f'{self._cfg_dir} is not a valid path to an existing directory!')
         self.file_path = cfg_file_path
         self._sources = {}
+        self._remaining_source_entries = {}
 
     def load_source(self, source_path: str, source_label: str, source_type: str = 'xml-variables', **kwargs):
-        """
-        Adds content of source file to source-database
+        """Adds content of source file to source-database
         :param source_path: Path to source file
-        :type source_path: str, path-like
         :param source_label: Label to access data in the source-database
-        :type source_label: str
         :param source_type: Type of source file
-        :type source_type: str
         :param kwargs: Various keyword arguments, depending on source file type
-        :type kwargs: Any
         """
         if not isinstance(source_path, str):
             raise TypeError('Argument "source_path" of function "load_source" has to be of type string')
@@ -807,45 +728,38 @@ class EpicsCfg:
             raise TypeError('Argument "source_type" of function "load_source" has to be of type string')
         source_types = ['xml-variables']
         if source_type not in source_types:
-            raise AttributeError('Argument "source_type" of function "load_source" has to be one of the following: '
-                                 + ', '.join(source_types))
+            raise AttributeError(f'Argument "source_type" of function "load_source" has to be one of the following: '
+                                 f'{", ".join(source_types)}')
         if source_type == 'xml-variables':
             try:
                 source_aliases = kwargs['aliases']
             except KeyError:
                 source_aliases = None
             try:
-                self._sources[source_label] = XmlSource(source_path,
-                                                        logger=self.logger,
-                                                        aliases=source_aliases)
+                # Generate source database
+                self._sources[source_label] = XmlSource(source_path, logger=self.logger, aliases=source_aliases)
+                # Populate _remaining_source_entries
+                self._remaining_source_entries[source_label] = self._sources[source_label].column('address')
             except SourceLoadError as error:
                 self.logger.write(error.message)
         else:
             raise AttributeError('Source type "' + str(source_type) + '" is unknown!')
 
     def generate_config_file(self, source_label: str, macro: Optional[str] = None, macro_length: Optional[int] = 0):
-        """
-        Method to generate simple config xml file as a blank.
-
+        """Method to generate simple config xml file as a blank.
         :param source_label: Label of the xml-source, to access it in self.sources-dictionary
-        :type source_label: str
         :param macro: Macro to be added to all PVs
-        :type macro: str, None
         :param macro_length: Length to be reserved in pv name for macro
-        :type macro_length: int
         """
         gen_log = Logging(source_label + 'CfgGen.log')  # Generate separate log file
         gen_log.write('Start of config file generation.')
         try:
             xml_source = self._sources[source_label]  # type: XmlSource
         except KeyError:
-            gen_log.write(AsciiFormat.error
-                          + 'Source label "'
-                          + source_label
-                          + '" does not refer to (successfully) loaded source!')
+            gen_log.write(f'{AsciiFormat.error}Source label "{source_label}" does not refer to a loaded source!')
             return
         if not xml_source:
-            self.logger.write(AsciiFormat.error + 'Empty source! Config file not generated!')
+            self.logger.write(f'{AsciiFormat.error}Empty source! Config file not generated!')
             return
         if not isinstance(self._sources[source_label], XmlSource):
             raise TypeError('source_label has to refer to XmlSource object in self._sources member of class EpicsCfg!')
@@ -856,7 +770,7 @@ class EpicsCfg:
                 raise TypeError('Argument "macro_length" has to be an integer!')
         # Prompt if existing file should be overwritten, and end function, if not
         if os.path.isfile(self._cfg_abspath) and not \
-                input('File ' + self._cfg_abspath + ' exists! Overwrite? (y/n):').lower() in ['y', 'yes']:
+                input(f'File {self._cfg_abspath} exists! Overwrite? (y/n):').lower() in ['y', 'yes']:
             gen_log.write('Ending config file generation to not overwrite existing file!')
             return
         # Dictionary to convert c types into EPICS counterparts
@@ -959,25 +873,35 @@ class EpicsCfg:
         pvs = Table(['pvName', 'devicePath', 'recordType', 'autosave', 'fields'])
         # Generate aliases from xml path
         gen_log.write('Generate aliases')
+
+        # Prune all branches in the variable tree, which have less than 5 leafs.
+        paths = []
+        branches = xml_source.column('variablePath')
+        for branch in list(set(branches)):  # list(set(list)) to remove duplicates
+            number_of_branches = branches.count(branch)
+            if number_of_branches > 4:
+                paths.append(branch)
+
         aliases = {}
-        for path in list(set(xml_source.column('variablePath'))):  # list(set(list)) to remove duplicates
-            words = path.strip('/').split('/')  # Remove heading/trailing separators, to avoid empty strings in list
-            alias_list = []
+        for path in paths:
+            words = path.strip('/').split('/')
+            surrogate_parts = []
             for word in words:
                 short_word = abbreviate(word.casefold())
-                alias_list.append(short_word.capitalize())
-            gen_log.write('Alias for node ' + path + ': ' + ''.join(alias_list))
-            aliases[path] = alias_list
+                surrogate_parts.append(short_word.capitalize())
+            gen_log.write(f'Alias for node {"/".join(words)}/: {"".join(surrogate_parts)}')
+            # Make sure, the "path" conforms to: node1/node2/
+            aliases[f'{"/".join(words)}/'] = ''.join(surrogate_parts)
+
         gen_log.write('Compile data from xml.')
         for entry in xml_source:  # Build database
             if entry['value_type'] in ['Void', 'unknown']:  # Skip Void-Type/Unknown Variables/Registers
-                gen_log.write(entry['variablePath'] + entry['variableName'] + ' is of type ' + entry['value_type'] +
-                              ': No record was created!')
+                gen_log.write(f'{entry["variablePath"]}{entry["variableName"]} is of type {entry["value_type"]}: '
+                              f'No record was created!')
                 continue
             try:  # Try to resolve aliases
-                pv_device_address = '+{' + ''.join(aliases[entry['variablePath']]) + '}' + entry['variableName']
+                pv_device_address = f'+\u007b{aliases[entry["variablePath"]]}\u007d{entry["variableName"]}'
             except KeyError:
-                gen_log.write('No alias found for ' + str(entry['variablePath']) + '! Using full xml path instead!')
                 pv_device_address = entry['address']
             pv_recordtype = pv_type_determination[pv_direction_determination[entry['direction']]
                                                   + str(entry['numberOfElements'] > 1)
@@ -1036,18 +960,16 @@ class EpicsCfg:
                                'INP': '@$(APP) +{:address}',
                                'NOBT': '+{:numberOfElements}'}
             }
-            if macro is not None:  # Construct macro
-                pv_macro = '$(' + macro + ')'
-            else:
-                pv_macro = ''
+            # Construct macro
+            pv_macro = f'$({macro})' if macro is not None else ''
             if entry['variablePath'] in aliases:
-                pv_name_path = ''.join(aliases[entry['variablePath']]) + '/'
+                pv_name_path = f'{aliases[entry["variablePath"]]}/'
             else:
                 pv_name_path = entry['variablePath']
             pv_name = pv_name_path + entry['variableName']
             if len(pv_name) > 39 - macro_length:
-                gen_log.write('PV name "' + pv_macro + pv_name + '" is too long.')
-            pvs.add({'devicePath': xml_source.application + '.' + pv_device_address,
+                gen_log.write(f'PV name "{pv_macro}{pv_name}" is too long.')
+            pvs.add({'devicePath': f'{xml_source.application}.{pv_device_address}',
                      'pvName': pv_macro + pv_name,
                      'recordType': pv_recordtype,
                      'autosave': pv_autosave_determination[pv_recordtype],
@@ -1059,19 +981,9 @@ class EpicsCfg:
                                                type='xml-variables',
                                                path=xml_source.file,
                                                label=xml_source.application)
-        alias_list = {}
-        for xml_path in aliases:
-            xml_alias_list = aliases[xml_path]
-            alias_handle = ''.join(xml_alias_list)
-            alias_surrogate = '+{' + '}+{'.join(xml_alias_list) + '}'
-            alias_list[alias_handle] = alias_surrogate
-            alias_path = xml_path.strip('/').split(sep='/')
-            for index in range(0, len(alias_path)):
-                # Attention: This assumes, that xml_path.split() returns the same number of elements, as are in aliases!
-                alias_word_handle = aliases[xml_path][index]
-                alias_list[alias_word_handle] = alias_path[index] + '/'
-        for alias_handle in sorted(alias_list):
-            xmlEleTree.SubElement(cfg_xml_source, 'alias', handle=alias_handle, surrogate=alias_list[alias_handle])
+        # generate alias-entries
+        for alias_path, alias_handle in aliases.items():
+            xmlEleTree.SubElement(cfg_xml_source, 'alias', handle=alias_handle, surrogate=alias_path)
         if xml_source.file[-4:] == '.xml':
             db_path = xml_source.file[:-4] + '.db'
         else:
@@ -1129,16 +1041,11 @@ class EpicsCfg:
         gen_log.write('Config file generation complete!')
 
     def _expand(self, in_str: str, aliases: Dict[str, str], source_link: Optional[Dict[str, Any]] = None) -> str:
-        """
-        Recursive method to replace strings, placed between "+{" and "}"
+        """Recursive method to replace strings, placed between "+{" and "}"
         :param in_str: String to be expanded
-        :type in_str: str
         :param aliases: Alias-dictionary
-        :type aliases: dict
         :param source_link: Reference for :links
-        :type source_link: dict or other object with []-accessor
         :return: Expanded string
-        :rtype: str
         """
         if not isinstance(in_str, str):
             raise TypeError('Attribute "in_str" of "_expand"-method has to be of type string')
@@ -1151,7 +1058,7 @@ class EpicsCfg:
             return in_str
         try:
             if pos_close - pos_open == 0:  # Check for empty curly brackets
-                self.logger.write(AsciiFormat.warning + 'Empty Macro in string "' + in_str + '" will be ignored!')
+                self.logger.write(f'{AsciiFormat.warning}Empty Macro in string "{in_str}" will be ignored!')
                 macro = ''
             elif in_str[pos_open + 2] == ':':  # Access source data
                 if source_link is None:
@@ -1160,24 +1067,18 @@ class EpicsCfg:
             else:
                 macro = aliases[in_str[pos_open + 2:pos_close]]
         except KeyError:
-            self.logger.write(AsciiFormat.warning
-                              + 'Macro '
-                              + in_str[pos_open:pos_close + 1]
-                              + ' not defined, and will be ignored!')
+            self.logger.write(f'{AsciiFormat.warning}Macro {in_str[pos_open:pos_close + 1]} not defined, and will be ignored!')
             macro = ''
         out = self._expand(in_str[:pos_open] + macro + in_str[pos_close + 1:], aliases, source_link)
         return out
 
     @staticmethod
     def _process_field_element(xml_address: xmlEleTree.Element) -> Dict[str, str]:
-        """
-        Extracting type and value from field element, while checking their existence.
+        """Extracting type and value from field element, while checking their existence.
         :param xml_address: xml address of field element
-        :type xml_address: xmlElementTree.Element object
         :return: Field type and value
-        :rtype: dict
         """
-        if xml_address.tag.rsplit(sep='}')[-1] != 'field':
+        if xml_address.tag.split('}')[-1] != 'field':
             raise XmlNodeError(xml_address, 'XML element not "field"!')
         field_type = xml_address.get('type')
         if field_type is None:
@@ -1187,41 +1088,33 @@ class EpicsCfg:
             raise XmlNodeError(xml_address, '"field"-element misses "value"-attribute!')
         return {field_type: field_value}
 
-    def process_cfg_file(self):
-        """
-        Process config file and trigger db file creation.
-        """
+    def process_cfg_file(self) -> None:
+        """Process config file and trigger db file creation."""
         try:
             cfg_file_tree = xmlEleTree.parse(self.file_path)
         except FileNotFoundError:
-            self.logger.write(AsciiFormat.error
-                              + 'File "'
-                              + self.file_path
-                              + '" not found!')
+            self.logger.write(f'{AsciiFormat.error}File "{self.file_path}" not found!')
             return
-        except xmlEleTree.ParseError:
-            self.logger.write(AsciiFormat.error
-                              + 'File "'
-                              + self.file_path
-                              + '" can not be parsed! Corrupt/not xml file?')
+        except xmlEleTree.ParseError as msg:
+            self.logger.write(f'{AsciiFormat.error}File "{self.file_path}" can not be parsed! Corrupt/not xml file?')
+            self.logger.write(f'Parser message: {msg}')
             return
         cfg_file_root = cfg_file_tree.getroot()
         ns = {'ns': cfg_file_root.tag.split(sep='{')[1].split(sep='}')[0]}
         # Load sources
         cfg_sourcefiles = cfg_file_root.findall('ns:sourcefile', ns)
         if not cfg_sourcefiles:
-            self.logger.write(AsciiFormat.warning + 'No sources are defined in ' + self.file_path)
+            self.logger.write(f'{AsciiFormat.warning}No sources are defined in {self.file_path}')
         else:
             for sourcefile in cfg_sourcefiles:
                 # Check if sourcefile exists
                 if not os.path.isfile(sourcefile.get('path')):
-                    self.logger.write(AsciiFormat.warning
-                                      + os.path.abspath(sourcefile.get('path'))
-                                      + ' does not point to an existing file!')
+                    self.logger.write(f'{AsciiFormat.warning}{os.path.abspath(sourcefile.get("path"))} '
+                                      f'does not point to an existing file!')
                     continue
                 # Parse source file according to type
                 sourcefile_label = sourcefile.get('label')
-                self.logger.write('Source ' + sourcefile_label + ' is loaded from "' + sourcefile.get('path') + '".')
+                self.logger.write(f'Source {sourcefile_label} is loaded from "{sourcefile.get("path")}".')
                 if sourcefile.get('type') == 'xml-variables':
                     # parse aliases
                     self.logger.write('...Processing aliases.')
@@ -1231,38 +1124,29 @@ class EpicsCfg:
                         try:
                             aliases[alias_attributes['handle']] = alias_attributes['surrogate']
                         except KeyError:
-                            self.logger.write(AsciiFormat.warning
-                                              + 'Alias element is missing either "handle" or "surrogate" attribute!')
+                            self.logger.write(f'{AsciiFormat.warning}Non-conform alias element: '
+                                              f'Missing "handle" and/or "surrogate" attribute!')
                             continue
                     # parse xmlfile
                     self.logger.write('...Loading source xml file.')
-                    self.load_source(sourcefile.get('path'),
-                                     sourcefile_label,
-                                     aliases=aliases)
+                    self.load_source(sourcefile.get('path'), sourcefile_label, aliases=aliases)
                 else:
-                    self.logger.write(
-                        AsciiFormat.warning + 'Source file type '
-                        + sourcefile.get("type")
-                        + ' is unknown. Source file '
-                        + sourcefile.get("path")
-                        + ' labeled '
-                        + sourcefile.get("label")
-                        + ' will be ignored!\n')
+                    self.logger.write(f'{AsciiFormat.warning}Source file type {sourcefile.get("type")} is unknown. '
+                                      f'Source file {sourcefile.get("path")} labeled '
+                                      f'{sourcefile.get("label")} will be ignored!\n')
                     continue
         # Process output files
         cfg_outputfiles = cfg_file_root.findall('ns:outputfile', ns)
         if not cfg_outputfiles:
-            self.logger.write(AsciiFormat.error + 'No output files are defined in ' + self.file_path)
+            self.logger.write(f'{AsciiFormat.error}No output files are defined in {self.file_path}')
             sys.exit(1)
         for output_file in cfg_outputfiles:
             if output_file.get('path') is None:
-                self.logger.write(AsciiFormat.error + 'No path is defined for an outputfile. File omitted!')
+                self.logger.write(f'{AsciiFormat.error}No path is defined for an outputfile. File omitted!')
                 continue
             self.logger.write('Compiling EPICS database.')
             database = DbFile(output_file.get('path'), logging=self.logger)
-            file_autosave = False
-            if str(output_file.get('autosave')).lower in ['true', '1']:
-                file_autosave = True
+            file_autosave = str(output_file.get('autosave')).lower in ['true', '1']
             autosave_list = []
             doc_list = []
             file_tier_fields = {}
@@ -1270,22 +1154,20 @@ class EpicsCfg:
                 try:
                     file_tier_fields.update(self._process_field_element(field))
                 except XmlNodeError as inst:
-                    self.logger.write(AsciiFormat.error + inst.Message + ' It will be ignored!')
+                    self.logger.write(f'{AsciiFormat.error}{inst.Message} It will be ignored!')
                     continue
             for recordgroup in output_file.findall('ns:recordgroup', ns):
                 record_type = recordgroup.get('type')
                 if record_type is None:
-                    self.logger.write(AsciiFormat.error
-                                      + '"recordgroup"-element of "outputfile"-element "'
-                                      + output_file.get('path')
-                                      + '" misses "type"-attribute! It will be ignored!')
+                    self.logger.write(f'{AsciiFormat.error}"recordgroup"-element of "outputfile"-element '
+                                      f'"{output_file.get("path")}" misses "type"-attribute! It will be ignored!')
                     continue
                 recordgroup_tier_fields = dict(file_tier_fields)  # Copy file tier fields in new dict
                 for field in recordgroup.findall('ns:field', ns):
                     try:
                         recordgroup_tier_fields.update(self._process_field_element(field))
                     except XmlNodeError as inst:
-                        self.logger.write(AsciiFormat.error + inst.Message + ' It will be ignored!')
+                        self.logger.write(f'{AsciiFormat.error}{inst.Message} It will be ignored!')
                         continue
                 if str(recordgroup.get('autosave')).lower() in ['true', '1']:
                     recordgroup_autosave = True
@@ -1296,16 +1178,12 @@ class EpicsCfg:
                 for record in recordgroup.findall('ns:record', ns):
                     # Check mandatory attributes for record element
                     if record.get('pvName') is None:
-                        self.logger.write(AsciiFormat.error
-                                          + '"record"-element of "outputfile"-element "'
-                                          + output_file.get('path')
-                                          + '" misses "pvName"-attribute! It will be ignored!')
+                        self.logger.write(f'{AsciiFormat.error}"record"-element of "outputfile"-element '
+                                          f'"{output_file.get("path")}" misses "pvName"-attribute! It will be ignored!')
                         continue
                     if record.get('source') is None:
-                        self.logger.write(AsciiFormat.error
-                                          + '"record"-element of "outputfile"-element "'
-                                          + output_file.get('path')
-                                          + '" misses "source"-attribute! It will be ignored!')
+                        self.logger.write(f'{AsciiFormat.error}"record"-element of "outputfile"-element '
+                                          f'"{output_file.get("path")}" misses "source"-attribute! It will be ignored!')
                         continue
                     # Read field elements of record
                     record_fields = dict(recordgroup_tier_fields)
@@ -1313,18 +1191,18 @@ class EpicsCfg:
                         try:
                             record_fields.update(self._process_field_element(field))
                         except XmlNodeError as inst:
-                            self.logger.write(AsciiFormat.error + inst.Message + ' It will be ignored!')
+                            self.logger.write(f'{AsciiFormat.error}{inst.Message} It will be ignored!')
                             continue
                     # Process source attribute
                     try:
-                        source_label, source_path = record.get('source').split(sep='.', maxsplit=1)
+                        source_label, source_path = record.get('source').split('.', 1)
                     except ValueError:
                         source_label = None
                         source_path = record.get('source')
                     if source_label is None:  # No string expansion without defined source
                         for key in record_fields:
-                            record_fields[key] = self._expand(record_fields[key], {}, {'source': record.get('source'),
-                                                                                       'pvName': record.get('pvName')})
+                            record_fields[key] = self._expand(record_fields[key], {},
+                                                              {'source': record.get('source'), 'pvName': record.get('pvName')})
                         database.add({
                             'devicePath': source_path,
                             'pvName': record.get('pvName'),
@@ -1343,8 +1221,13 @@ class EpicsCfg:
                             'recordType': record_type,
                             'fields': record_fields
                         })
-                        doc_list.append(record.get('pvName') + ' (' + record_type + '): '
-                                        + self._expand('+{:description}', source_aliases, source_link))
+                        try:  # Remove source entry from list of remaining entries.
+                            self._remaining_source_entries[source_label].remove(device_path)
+                        except ValueError:
+                            self.logger.write(f'{AsciiFormat.warning}No entry for {device_path} in list of remaining entries! '
+                                              f'Either not present in source file or already used.')
+                        doc_list_entry = '/'.join(self._expand("+{:description}", source_aliases, source_link).split(' - ')[-2:])
+                        doc_list.append(f'{record.get("pvName")} ({record_type}): {doc_list_entry}')
                     if str(record.get('autosave')).lower() in ['true', '1']:
                         record_autosave = True
                     elif str(record.get('autosave')).lower() in ['false', '0']:
@@ -1354,24 +1237,52 @@ class EpicsCfg:
                     if record_autosave:  # Add pv name to autosave list
                         autosave_list.append(record.get('pvName'))
             # Write db-file
-            self.logger.write('Writing file: "' + database.file_path + '".')
+            self.logger.write(f'Writing file: "{database.file_path}".')
             database.write_db_file(self.file_path)  # file_path for comment in db-file, not path to db-file itself.
             # Write autosave .req-file
             if output_file.get('autosavePath') is None:
-                autosave_path = os.path.abspath(output_file.get('path').rsplit(sep='.', maxsplit=1)[0] + '.req')
+                autosave_path = os.path.abspath(f'{output_file.get("path").rsplit(".", 1)[0]}.req')
             else:
                 autosave_path = os.path.abspath(output_file.get('autosavePath'))
             if autosave_list:
-                self.logger.write('Writing autosave file: "' + autosave_path + '".')
+                self.logger.write(f'Writing autosave file: "{autosave_path}".')
                 with open(autosave_path, 'w') as autosave_file:
                     autosave_file.write('\n'.join(autosave_list) + '\n')
             # Generate documentation for PVs
-            docfile_path = os.path.abspath(output_file.get('path').rsplit(sep='.', maxsplit=1)[0] + '_descriptions.txt')
+            docfile_path = os.path.abspath(f'{output_file.get("path").rsplit(".", 1)[0]}_descriptions.txt')
             if doc_list:
-                self.logger.write('Writing PV descriptions to file: "' + docfile_path + '".')
+                self.logger.write(f'Writing PV descriptions to file: "{docfile_path}".')
+                doc_list_compiled = '\n'.join(sorted(doc_list))
                 with open(docfile_path, 'w') as docfile:
-                    docfile.write('Descriptions for PVs defined in "' + self.file_path + '"\n\n'
-                                  + '\n'.join(doc_list))
+                    docfile.write(f'Descriptions for PVs defined in "{self.file_path}"\n\n{doc_list_compiled}')
+        # Process ignore section
+        cfg_ignore = cfg_file_root.find('ns:ignore', ns)
+        if cfg_ignore:
+            cfg_ignore_records = cfg_ignore.findall('ns:record', ns)
+            for ignore_record in cfg_ignore_records:
+                source_label, source_path = ignore_record.get('source').split('.', 1)
+                source_aliases = self._sources[source_label].aliases
+                device_path = self._expand(source_path, source_aliases)
+                try:
+                    self._remaining_source_entries[source_label].remove(device_path)
+                except ValueError:
+                    self.logger.write(f'{AsciiFormat.warning}No entry for {device_path} in remaining entries! '
+                                      f'Either not present in source file or already used.')
+            cfg_ignore_masks = cfg_ignore.findall('ns:mask', ns)
+            for ignore_mask in cfg_ignore_masks:
+                source_label = ignore_mask.get('sourceLabel')
+                filtered = [entry for entry in self._remaining_source_entries[source_label] if not re.match(ignore_mask.get('regex'), entry)]
+                self._remaining_source_entries[source_label] = filtered
+        # Compile list of unused source entries to log
+        list_unprocessed = []
+        for label, content in self._remaining_source_entries.items():
+            header = AsciiFormat.colored('Sourcefile label: ', 'green') + AsciiFormat.bold(label)
+            address_list = '\n'.join(content)
+            list_unprocessed.append(f'\n{header}\n{address_list}')
+        unprocessed = '\n'.join(list_unprocessed)
+        self.logger.write(f'Processing config file complete!\n\n'
+                          f'{AsciiFormat.colored("The following entries in the sourcefiles were not processed:", "BoldCyan")}\n'
+                          f'{unprocessed}')
 
 
 CLAP = argparse.ArgumentParser(

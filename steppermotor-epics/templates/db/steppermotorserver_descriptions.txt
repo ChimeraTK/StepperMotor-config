@@ -1,15 +1,15 @@
-Descriptions for PVs defined in "/home/pnonn/llrfctrlConfigs/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-01_00_04-dbGen.xml"
+Descriptions for PVs defined in "/home/pnonn/config-generator-scripts/checkout/steppermotor/steppermotor-epics/dbGen/steppermotorserver-01_00_04-dbGen.xml"
 
-$(Server)/Motors/driverType (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/type (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/driverDeviceName (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/driverCardName (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/driverModuleName (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/driverId (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/driverConfigFile (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/userUnitToStepsRatio (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/encoderUnitToStepsRatio (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/userPositionUnit (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Motors/dummy (aai): Configuration read from file 'ServerConfiguration.xml' - Configuration array
-$(Server)/Trigger/period (longin): Configuration read from file 'ServerConfiguration.xml' - Configuration variable
-$(Server)/Motors/nMotors (longin): Configuration read from file 'ServerConfiguration.xml' - Configuration variable
+$(Server)/Motors/driverCardName (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/driverConfigFile (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/driverDeviceName (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/driverId (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/driverModuleName (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/driverType (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/dummy (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/encoderUnitToStepsRatio (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/nMotors (longin): Configuration read from file 'ServerConfiguration.xml'/Configuration variable
+$(Server)/Motors/type (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/userPositionUnit (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Motors/userUnitToStepsRatio (aai): Configuration read from file 'ServerConfiguration.xml'/Configuration array
+$(Server)/Trigger/period (longin): Configuration read from file 'ServerConfiguration.xml'/Configuration variable

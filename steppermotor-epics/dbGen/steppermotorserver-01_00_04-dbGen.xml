@@ -17,13 +17,13 @@
             <field type="SCAN" value="1 second" />
             <field type="ZNAM" value="False" />
             <field type="ONAM" value="True" />
-            <record pvName="$(Server)/$(Motor)/InNotification/hasMessage" source="">
+            <record pvName="$(Server)/$(Motor)/InNotification/hasMessage" source="steppermotorserver.Motor1/controlInput/notification/hasMessage">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/notification/hasMessage" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchPositive/isAvailable" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchPositive/isAvailable" source="steppermotorserver.Motor1/readback/positiveEndSwitch/isAvailable">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/isAvailable" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchNegative/isAvailable" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchNegative/isAvailable" source="steppermotorserver.Motor1/readback/negativeEndSwitch/isAvailable">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/isAvailable" />
             </record>
         </recordgroup>
@@ -94,19 +94,19 @@
         <recordgroup type="lsi" autosave="false">
             <field type="SCAN" value="1 second" />
             <field type="SIZV" value="255" />
-            <record pvName="$(Server)/$(Motor)/InNotification/message" source="">
+            <record pvName="$(Server)/$(Motor)/InNotification/message" source="steppermotorserver.Motor1/controlInput/notification/message">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/notification/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/message" source="">
+            <record pvName="$(Server)/$(Motor)/Status/message" source="steppermotorserver.Motor1/StatusPropagator/message">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/StatusPropagator/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/motorState" source="">
+            <record pvName="$(Server)/$(Motor)/Status/motorState" source="steppermotorserver.Motor1/StatusPropagator/motorState">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/StatusPropagator/motorState" />
             </record>
-            <record pvName="$(Server)/$(Motor)/ModuleStatus/message" source="">
+            <record pvName="$(Server)/$(Motor)/ModuleStatus/message" source="steppermotorserver.Motor1/readback/ModuleStatus/message">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/ModuleStatus/message" />
             </record>
-            <record pvName="$(Server)/$(Motor)/StatusRB/state" source="">
+            <record pvName="$(Server)/$(Motor)/StatusRB/state" source="steppermotorserver.Motor1/readback/status/state">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/state" />
             </record>
         </recordgroup>
@@ -197,61 +197,61 @@
             <record pvName="$(Server)/$(Motor)/Dummy" source="steppermotorserver.Motor1/Dummy">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/Dummy" />
             </record>
-            <record pvName="$(Server)/$(Motor)/InDummysignals/dummyMotorTrigger" source="">
+            <record pvName="$(Server)/$(Motor)/InDummysignals/dummyMotorTrigger" source="steppermotorserver.Motor1/controlInput/dummySignals/dummyMotorTrigger">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/dummySignals/dummyMotorTrigger" />
             </record>
-            <record pvName="$(Server)/$(Motor)/InDummysignals/dummyMotorStop" source="">
+            <record pvName="$(Server)/$(Motor)/InDummysignals/dummyMotorStop" source="steppermotorserver.Motor1/controlInput/dummySignals/dummyMotorStop">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/controlInput/dummySignals/dummyMotorStop" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Modulestatus/status" source="">
+            <record pvName="$(Server)/$(Motor)/Modulestatus/status" source="steppermotorserver.Motor1/readback/ModuleStatus/status">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/ModuleStatus/status" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Position/actualValueInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/Position/actualValueInSteps" source="steppermotorserver.Motor1/readback/position/actualValueInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/position/actualValueInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Position/targetValueInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/Position/targetValueInSteps" source="steppermotorserver.Motor1/readback/position/targetValueInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/position/targetValueInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/isEnabled" source="">
+            <record pvName="$(Server)/$(Motor)/Status/isEnabled" source="steppermotorserver.Motor1/readback/status/isEnabled">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/isEnabled" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/errorId" source="">
+            <record pvName="$(Server)/$(Motor)/Status/errorId" source="steppermotorserver.Motor1/readback/status/errorId">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/errorId" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/isFullStepping" source="">
+            <record pvName="$(Server)/$(Motor)/Status/isFullStepping" source="steppermotorserver.Motor1/readback/status/isFullStepping">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/isFullStepping" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/autostartEnabled" source="">
+            <record pvName="$(Server)/$(Motor)/Status/autostartEnabled" source="steppermotorserver.Motor1/readback/status/autostartEnabled">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/autostartEnabled" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/encoderReadoutMode" source="">
+            <record pvName="$(Server)/$(Motor)/Status/encoderReadoutMode" source="steppermotorserver.Motor1/readback/status/encoderReadoutMode">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/encoderReadoutMode" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/calibrationMode" source="">
+            <record pvName="$(Server)/$(Motor)/Status/calibrationMode" source="steppermotorserver.Motor1/readback/status/calibrationMode">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/calibrationMode" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Status/isIdle" source="">
+            <record pvName="$(Server)/$(Motor)/Status/isIdle" source="steppermotorserver.Motor1/readback/status/isIdle">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/status/isIdle" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Swlimits/isEnabled" source="">
+            <record pvName="$(Server)/$(Motor)/Swlimits/isEnabled" source="steppermotorserver.Motor1/readback/swLimits/isEnabled">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/swLimits/isEnabled" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Swlimits/minPositionInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/Swlimits/minPositionInSteps" source="steppermotorserver.Motor1/readback/swLimits/minPositionInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/swLimits/minPositionInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/Swlimits/maxPositionInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/Swlimits/maxPositionInSteps" source="steppermotorserver.Motor1/readback/swLimits/maxPositionInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/swLimits/maxPositionInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchPositive/positionInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchPositive/positionInSteps" source="steppermotorserver.Motor1/readback/positiveEndSwitch/positionInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/positionInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchPositive/isActive" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchPositive/isActive" source="steppermotorserver.Motor1/readback/positiveEndSwitch/isActive">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/positiveEndSwitch/isActive" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchNegative/positionInSteps" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchNegative/positionInSteps" source="steppermotorserver.Motor1/readback/negativeEndSwitch/positionInSteps">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/positionInSteps" />
             </record>
-            <record pvName="$(Server)/$(Motor)/EndswitchNegative/isActive" source="">
+            <record pvName="$(Server)/$(Motor)/EndswitchNegative/isActive" source="steppermotorserver.Motor1/readback/negativeEndSwitch/isActive">
                 <field type="INP" value="@$(APP) Motor$(MotorNr)/readback/negativeEndSwitch/isActive" />
             </record>
         </recordgroup>
@@ -270,7 +270,7 @@
             <record pvName="$(Server)/Motors/driverCardName" source="steppermotorserver.Motors/motorDriverCardName" />
             <record pvName="$(Server)/Motors/driverModuleName" source="steppermotorserver.Motors/motorDriverModuleName" />
             <record pvName="$(Server)/Motors/driverId" source="steppermotorserver.Motors/motorDriverId">
-                <field type="FTVL" value="LONG" /><!--Override necessary, because IOC recognizes it as LONG instead of USHORT-->
+                <field type="FTVL" value="LONG" /><!--Override necessary, because IOC recognizes it as LONG instead of ULONG-->
             </record>
             <record pvName="$(Server)/Motors/driverConfigFile" source="steppermotorserver.Motors/motorDriverConfigFile" />
             <record pvName="$(Server)/Motors/userUnitToStepsRatio" source="steppermotorserver.Motors/userUnitToStepsRatio" />
@@ -286,4 +286,17 @@
             <record pvName="$(Server)/Motors/nMotors" source="steppermotorserver.Motors/nMotors" />
         </recordgroup>
     </outputfile>
+    <ignore>
+        <!--
+        This section contains source-based record entries, which should not be listed as "not processed".
+        Additionally it is possible to mask multiple variables in the source files, using a regex.
+        As the content of the ignore section is only processed after the outputfiles, records and masks in this section do not affect the db-files.
+        <record/> entries only require a source attribute
+        <mask/> entries requite the attributes "sourceLabel" and "regex". "regex" might be any regular expression, the re-module of python3 understands.
+        -->
+        <!--Ignoring internal variables-->
+        <mask sourceLabel="steppermotorserver" regex=".*_040logicalNameMap_063map_061.*" />
+        <!--We dont care for the trigger (yet?)-->
+        <mask sourceLabel="steppermotorserver" regex="^Trigger/.*" />
+    </ignore>
 </EPICSdb>
