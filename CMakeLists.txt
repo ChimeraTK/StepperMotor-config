@@ -1,5 +1,5 @@
-PROJECT(ChimeraTK_StepperMotor-config NONE)
 cmake_minimum_required(VERSION 3.5)
+PROJECT(ChimeraTK_StepperMotor-config NONE)
 
 # Note: Always keep MAJOR_VERSION and MINOR_VERSION identical to the server version. Count only the patch separately.
 set(${PROJECT_NAME}_MAJOR_VERSION 01)
