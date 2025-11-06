@@ -4,7 +4,7 @@ SERVERNAME=STATION
 EXECUTABLE_IN_PACKAGE='/usr/bin/steppermotorserver'
 WORKDIR=f'/var/epics-servers/{SERVERNAME}'
 FILES_TO_SYMLINK_BETWEEN_INSTANCES=''
-MAKE_EXECUTABLE='initMotorDriverHW.py req/make_motor_links.py'
+MAKE_EXECUTABLE=['initMotorDriverHW.py', 'req/make_motor_links.py']
 CYCLE_TIME_MS=1000
 
 class FmcCarrier:

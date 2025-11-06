@@ -4,7 +4,7 @@
 mesa-ubuntu.kph.uni-mainz.de    S              mesa            LLRF
 
 # TARLA
-tarlacpullrf2                   S              tarla           LLRF2
+tarlacpullrf2                   S              tarla           MOTORDRV
 
 # Test setup
 mskcpuscav2                     S              test            SCAV2
