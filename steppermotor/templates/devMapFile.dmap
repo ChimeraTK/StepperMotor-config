@@ -1,4 +1,4 @@
 ##mako
-% for DRIVER in range(MOTORDRIVERS) :
-${MOTORDRIVER_NAME[DRIVER]}    (pci:pcieunis${MOTORDRIVER_SLOT[DRIVER]}?map=${MAPFILE_BASENAME}${FIRMWARE_REV_MOTDRV}.mapp)
+% for device_name, device in motor_cfg.devices.items():
+${device_name}    (pci:pcieunis${device.slot}?map=mapp/${device.mapp_file})
 % endfor
