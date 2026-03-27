@@ -6,7 +6,8 @@
 #                       mapp_base: str,
 #                       mapp_version: str)
 # And motors can be added with the method:
-#  MotorCfg.add_motor(motor_type: str,
+#  MotorCfg.add_motor(motor_name: str,
+#                     motor_type: str,
 #                     device: str,
 #                     fmc_slot: str,
 #                     port_number: int,
