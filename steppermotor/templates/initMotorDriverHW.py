@@ -1,19 +1,22 @@
 #!/usr/bin/python3
 
-import mtca4u
+import deviceaccess as da
 import sys
 
-if len(sys.argv) < 4 :
+if len(sys.argv) < 4:
     print("Usage: initMotorDriverHW.py <dMapFileName> <boardAliasName> <bspName>")
     sys.exit(1)
 
 dMapFileName = sys.argv[1]
-deviceName   = sys.argv[2]
+deviceName = sys.argv[2]
 bspName = sys.argv[3]
 
-print(f"Performing initialization of device {deviceName}.")
-mtca4u.set_dmap_location(dMapFileName)
-device = mtca4u.Device(deviceName)
+da.setDMapFilePath(dMapFileName)
 
-if device.read(bspName, "WORD_RESET_N") == 0:
-    device.write(bspName, "WORD_RESET_N", 1);
+print("Performing initialization of device "+deviceName+".")
+device = da.Device(deviceName)
+device.open()
+
+
+if device.read(f"{bspName}.WORD_RESET_N") == 0:
+    device.write(f"{bspName}.WORD_RESET_N", 1)
