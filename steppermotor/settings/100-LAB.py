@@ -27,7 +27,7 @@ if ACCELERATOR == "LAB":
 
         motor_cfg = MotorConfig()
         motor_cfg.add_device('MotorDriver1', 'FMC20', 3, 'uni_fmc_pzt4_ctrl', 'md22_md22_2.0.0-2-g17258df0')
-        motor_cfg.add_device('1', 'LinearMotorWithReferenceSwitch', 'FMC1', 0, LBSYNC_ODL_CFG_FILE, 'MD22')
-        motor_cfg.add_device('2', 'LinearMotorWithReferenceSwitch', 'FMC1', 1, LBSYNC_ODL_CFG_FILE, 'MD22')
-        motor_cfg.add_device('3', 'LinearMotorWithReferenceSwitch', 'FMC2', 0, LBSYNC_ODL_CFG_FILE, 'MD22')
-        motor_cfg.add_device('4', 'LinearMotorWithReferenceSwitch', 'FMC2', 1, LBSYNC_ODL_CFG_FILE, 'MD22')
+        motor_cfg.add_motor('1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 0, LBSYNC_ODL_CFG_FILE, 'MD22')
+        motor_cfg.add_motor('2', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC1', 1, LBSYNC_ODL_CFG_FILE, 'MD22')
+        motor_cfg.add_motor('3', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC2', 0, LBSYNC_ODL_CFG_FILE, 'MD22')
+        motor_cfg.add_motor('4', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'FMC2', 1, LBSYNC_ODL_CFG_FILE, 'MD22')
