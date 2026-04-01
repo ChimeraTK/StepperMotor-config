@@ -1,0 +1,14 @@
+##mako
+<?xml version="1.0" encoding="UTF-8"?>
+<device_server xmlns="https://github.com/ChimeraTK/ControlSystemAdapter-DoocsAdapter">
+    <data_matching>none</data_matching>
+    <has_history>false</has_history>
+% for motor_number, motor in  motor_cfg.motors.items():
+    <location name="${motor.name}">
+        <import>/Motor${motor_number + 1}</import>
+    </location>
+% endfor
+    <location name="Configuration">
+        <import>/Motors</import>
+    </location>
+</device_server>
