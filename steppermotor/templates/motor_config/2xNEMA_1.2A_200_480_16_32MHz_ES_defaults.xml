@@ -15,5 +15,6 @@
     <Register name="maximumVelocity" value="0x68D"/>
     <Register name="proportionalityFactorData" value="0xD007"/>
     <Register name="stallGuardControlData" value="0x10014"/>
+    <Register name="referenceConfigAndRampModeData" value="0x00000300" />
   </MotorControlerConfig>
 </MotorDriverCardConfig>
