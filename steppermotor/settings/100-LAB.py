@@ -23,7 +23,7 @@ if ACCELERATOR == "LAB":
         EXPERT_GID   = 7273  # msk_lbsync
         OPERATOR_GID = 1432  # msk
 
-        LBSYNC_ODL_CFG_FILE = "ODL-0.9A_400FS_250rpm_acc100ms_16us_32MHz_chopper-tuned.xml"
+        LBSYNC_ODL_CFG_FILE = "ODL-0.9A_400FS_250rpm_acc100ms_16us_32MHz_endsw_inv_chopper-tuned.xml"
 
         motor_cfg = MotorConfig()
         motor_cfg.add_device('MotorDriver1', 'FMC20', 3, 'uni_fmc_pzt4_ctrl', 'md22_md22_2.0.0-2-g17258df0')
