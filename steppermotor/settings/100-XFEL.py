@@ -1,6 +1,6 @@
 if ACCELERATOR == "XFEL":
       FACILITY = f"{ACCELERATOR}.SYNC"
-      DEVICE = "LAM.FE"
+      DEVICE = "ODL"
       EXPERT_UID   = 20732 # lbsync
       EXPERT_GID   = 7273  # msk_lbsync
       OPERATOR_GID = 1432  # msk
