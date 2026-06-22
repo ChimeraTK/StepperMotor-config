@@ -3,12 +3,95 @@
 <device_server xmlns="https://github.com/ChimeraTK/ControlSystemAdapter-DoocsAdapter">
     <data_matching>none</data_matching>
     <has_history>false</has_history>
-% for motor_number, motor in  motor_cfg.motors.items():
+% for motor_number, motor in motor_cfg.motors.items():
+<%
+    m = motor_number + 1
+%>\
     <location name="${motor.name}">
-        <import>/Motor${motor_number + 1}</import>
+        <!-- Readback - Position -->
+        <property name="CURRENT_POSITION" source="/Motor${m}/readback/position/actualValue"/>
+        <property name="TARGET_POSITION" source="/Motor${m}/readback/position/targetValue"/>
+        <property name="ENCODER_POSITION" source="/Motor${m}/readback/position/encoder"/>
+        <property name="CURRENT_POSITION_RAW" source="/Motor${m}/readback/position/actualValueInSteps"/>
+        <property name="TARGET_POSITION_RAW" source="/Motor${m}/readback/position/targetValueInSteps"/>
+        <!-- Readback - Status -->
+        <property name="STATE" source="/Motor${m}/readback/status/state"/>
+        <property name="IS_ENABLED" source="/Motor${m}/readback/status/isEnabled"/>
+        <property name="IS_IDLE" source="/Motor${m}/readback/status/isIdle"/>
+        <property name="IS_FULL_STEPPING" source="/Motor${m}/readback/status/isFullStepping"/>
+        <property name="CALIBRATION_MODE" source="/Motor${m}/readback/status/calibrationMode"/>
+        <property name="AUTOSTART_ENABLED" source="/Motor${m}/readback/status/autostartEnabled"/>
+        <property name="ENCODER_READOUT_MODE" source="/Motor${m}/readback/status/encoderReadoutMode"/>
+        <property name="ERROR_ID" source="/Motor${m}/readback/status/errorId"/>
+        <!-- Readback - Limits -->
+        <property name="SPEED_LIMIT" source="/Motor${m}/readback/speedLimit/userValue"/>
+        <property name="MAX_SPEED" source="/Motor${m}/readback/speedLimit/maxValue"/>
+        <property name="CURRENT_LIMIT" source="/Motor${m}/readback/currentLimit/userValue"/>
+        <property name="MAX_CURRENT" source="/Motor${m}/readback/currentLimit/maxValue"/>
+        <!-- Readback - Software Limits -->
+        <property name="SOFTWARE_LIMITS_ENABLED" source="/Motor${m}/readback/swLimits/isEnabled"/>
+        <property name="SOFTWARE_LIMIT_MAX" source="/Motor${m}/readback/swLimits/maxPosition"/>
+        <property name="SOFTWARE_LIMIT_MIN" source="/Motor${m}/readback/swLimits/minPosition"/>
+        <property name="SOFTWARE_LIMIT_MAX_RAW" source="/Motor${m}/readback/swLimits/maxPositionInSteps"/>
+        <property name="SOFTWARE_LIMIT_MIN_RAW" source="/Motor${m}/readback/swLimits/minPositionInSteps"/>
+        <!-- Readback - End Switches -->
+        <property name="POSITIVE_END_SWITCH" source="/Motor${m}/readback/positiveEndSwitch/isActive"/>
+        <property name="NEGATIVE_END_SWITCH" source="/Motor${m}/readback/negativeEndSwitch/isActive"/>
+        <!-- Readback - Module Status -->
+        <property name="STATUS_MESSAGE" source="/Motor${m}/readback/ModuleStatus/message"/>
+        <property name="MODULE_STATUS" source="/Motor${m}/readback/ModuleStatus/status"/>
+        <!-- Readback - Timing -->
+        <property name="ACTUAL_CYCLE_TIME" source="/Motor${m}/readback/actualCycleTime"/>
+        <property name="ACTUAL_RECEIVE_TIME" source="/Motor${m}/readback/actualReceiveTime"/>
+        <!-- Control - Basic -->
+        <property name="ENABLE" source="/Motor${m}/controlInput/control/enable"/>
+        <property name="DISABLE" source="/Motor${m}/controlInput/control/disable"/>
+        <property name="START" source="/Motor${m}/controlInput/control/start"/>
+        <property name="STOP" source="/Motor${m}/controlInput/control/stop"/>
+        <property name="EMERGENCY_STOP" source="/Motor${m}/controlInput/control/emergencyStop"/>
+        <property name="RESET_ERROR" source="/Motor${m}/controlInput/control/resetError"/>
+        <property name="ENABLE_FULL_STEPPING" source="/Motor${m}/controlInput/control/enableFullStepping"/>
+        <property name="ENABLE_AUTOSTART" source="/Motor${m}/controlInput/control/enableAutostart"/>
+        <!-- Control - Calibration -->
+        <property name="CALIBRATE" source="/Motor${m}/controlInput/control/calibrate"/>
+        <property name="DETERMINE_TOLERANCE" source="/Motor${m}/controlInput/control/determineTolerance"/>
+        <!-- Control - Position Setpoint -->
+        <property name="TARGET_POSITION_SET" source="/Motor${m}/controlInput/positionSetpoint/position"/>
+        <property name="TARGET_POSITION_RAW_SET" source="/Motor${m}/controlInput/positionSetpoint/positionInSteps"/>
+        <property name="RELATIVE_MOVE" source="/Motor${m}/controlInput/positionSetpoint/relativePosition"/>
+        <property name="RELATIVE_MOVE_RAW" source="/Motor${m}/controlInput/positionSetpoint/relativePositionInSteps"/>
+        <!-- Control - User Limits -->
+        <property name="SET_SPEED_LIMIT" source="/Motor${m}/controlInput/userLimits/speed"/>
+        <property name="SET_CURRENT_LIMIT" source="/Motor${m}/controlInput/userLimits/current"/>
+        <!-- Control - Software Limits -->
+        <property name="ENABLE_SOFTWARE_LIMITS" source="/Motor${m}/controlInput/swLimits/enable"/>
+        <property name="SET_SOFTWARE_LIMIT_MAX" source="/Motor${m}/controlInput/swLimits/maxPosition"/>
+        <property name="SET_SOFTWARE_LIMIT_MIN" source="/Motor${m}/controlInput/swLimits/minPosition"/>
+        <property name="SET_SOFTWARE_LIMIT_MAX_RAW" source="/Motor${m}/controlInput/swLimits/maxPositionInSteps"/>
+        <property name="SET_SOFTWARE_LIMIT_MIN_RAW" source="/Motor${m}/controlInput/swLimits/minPositionInSteps"/>
+        <!-- Control - Reference Settings -->
+        <property name="SET_REFERENCE_POSITION" source="/Motor${m}/controlInput/referenceSettings/position"/>
+        <property name="SET_REFERENCE_POSITION_RAW" source="/Motor${m}/controlInput/referenceSettings/positionInSteps"/>
+        <property name="SET_ENCODER_REFERENCE" source="/Motor${m}/controlInput/referenceSettings/encoderPosition"/>
+        <property name="SET_AXIS_TRANSLATION" source="/Motor${m}/controlInput/referenceSettings/axisTranslation"/>
+        <property name="SET_AXIS_TRANSLATION_RAW" source="/Motor${m}/controlInput/referenceSettings/axisTranslationInSteps"/>
+        <!-- Control - Notification -->
+        <property name="HAS_MESSAGE" source="/Motor${m}/controlInput/notification/hasMessage"/>
+        <property name="NOTIFICATION_MESSAGE" source="/Motor${m}/controlInput/notification/message"/>
+        <!-- StatusPropagator -->
+        <property name="MOTOR_STATE" source="/Motor${m}/StatusPropagator/motorState"/>
+        <property name="STATUS_PROPAGATOR_MESSAGE" source="/Motor${m}/StatusPropagator/message"/>
     </location>
 % endfor
     <location name="Configuration">
         <import>/Motors</import>
     </location>
+% for motor_number, motor in motor_cfg.motors.items():
+<%
+    m = motor_number + 1
+%>\
+    <location name="ADVANCED_${motor.name}">
+        <import>/Motor${m}</import>
+    </location>
+% endfor
 </device_server>
