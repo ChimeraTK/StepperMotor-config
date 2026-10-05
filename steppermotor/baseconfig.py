@@ -7,7 +7,7 @@ WORKDIR               = f"/export/doocs/server/{SERVERNAME}"
 EXECUTABLE_IN_PACKAGE = f"{WORKDIR}/{SERVERNAME}"
 FILES_TO_SYMLINK_BETWEEN_INSTANCES = ""
 
-MAKE_EXECUTABLE = "initMotorDriverHW.py"
+MAKE_EXECUTABLE = ["initMotorDriverHW.py", ]
 
 SYSTEM_UID   = "doocsadm"
 SYSTEM_GID   = "doocsadm"
