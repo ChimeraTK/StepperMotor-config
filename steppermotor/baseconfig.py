@@ -1,4 +1,6 @@
-(ACCELERATOR,STATION) = INSTANCE_CONFIG
+(ACCELERATOR, DEVICE, STATION) = INSTANCE_CONFIG
+
+SVR_LOCATION = f'{HOSTNAME.upper()}._SVR'
 
 SERVERNAME            = "stepper_motor_server"
 WORKDIR               = f"/export/doocs/server/{SERVERNAME}"
@@ -7,26 +9,25 @@ FILES_TO_SYMLINK_BETWEEN_INSTANCES = ""
 
 MAKE_EXECUTABLE = "initMotorDriverHW.py"
 
-USE_DOOCS_WATCHDOG = True
-
 SYSTEM_UID   = "doocsadm"
 SYSTEM_GID   = "doocsadm"
 
-CYCLE_TIME_MS = 1000
+USE_DOOCS_WATCHDOG = True
 
-# Default for single-instance locations
-SVR_LOCATION = f'{HOSTNAME.upper()}._SVR'
+WATCHDOG_ADDRESS = f'{ACCELERATOR}.SYSTEM/{HOSTNAME.upper()}.WATCH/SVR.STEPPER_MOTOR'
 
 RPC_NUMBER = 610489684
-WATCHDOG_ADDRESS = f'{ACCELERATOR}.SYSTEM/{HOSTNAME.upper()}.WATCH/SVR.STEPPER_MOTOR'
+
+BPN = 1245
 
 EXPERT_UID   = -1  # Omitted
 EXPERT_GID   = -1
 OPERATOR_UID = -1
-OPERATOR_GID = 406  # doocsadm
+OPERATOR_GID = -1
 CUSTOMER_GID = -1
 CUSTOMER_UID = -1
 
+CYCLE_TIME_MS = 1000
 
 class FmcCarrier:
     """Container class to hold the information to compile entries for motor driver devices in the .dmap-file."""
