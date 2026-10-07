@@ -1,13 +1,13 @@
-# host name                     dynamic/static  common prefix    list of stations (space separated)
+# host name                  stat/dyn    common prefix    list of stations (space separated)
 
-# XFEL
-xfelcpusynclamfxe1         D         XFEL                  FXEL
-xfelcpusynclamspb1         D         XFEL                  SPB1
-xfelcpusynclamhed1         D         XFEL                  HED1
-xfelcpusynclamhed2         D         XFEL                  HED2
-xfelcpusynclammid1         D         XFEL                  MID1
-xfelcpusynclamsqs1         D         XFEL                  SQS1
+# European XFEL
+xfelcpusynclamfxe1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.FXE.ILH
+xfelcpusynclamspb1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.SPB.EH
+xfelcpusynclamhed1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.HED.EH
+xfelcpusynclamhed2.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.HED.ILH
+xfelcpusynclammid1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.MID.EH
+xfelcpusynclamsqs1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.SQS.EH
 
-# Lab crates
-xfelcpusynclamdev1.desy.de      D               LAB              LAMDEV
-mskcpusync26a2.desy.de          D               LAB              26A2
+# DESY Labs
+xfelcpusynclamdev1.desy.de   D           LAB              LAM.ACT/LAMDEV
+mskcpusync26a2.desy.de       D           LAB              ODL/26A2

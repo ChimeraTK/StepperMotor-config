@@ -7,7 +7,7 @@
 <%
     m = motor_number + 1
 %>\
-    <location name="${motor.name}">
+    <location name="${STATION}.${motor.name}">
         <!-- Readback - Position -->
         <property name="CURRENT_POSITION" source="/Motor${m}/readback/position/actualValue"/>
         <property name="TARGET_POSITION" source="/Motor${m}/readback/position/targetValue"/>
@@ -83,14 +83,14 @@
         <property name="STATUS_PROPAGATOR_MESSAGE" source="/Motor${m}/StatusPropagator/message"/>
     </location>
 % endfor
-    <location name="Configuration">
+    <location name="${STATION}.Configuration">
         <import>/Motors</import>
     </location>
 % for motor_number, motor in motor_cfg.motors.items():
 <%
     m = motor_number + 1
 %>\
-    <location name="ADVANCED_${motor.name}">
+    <location name="${STATION}.ADVANCED_${motor.name}">
         <import>/Motor${m}</import>
     </location>
 % endfor
