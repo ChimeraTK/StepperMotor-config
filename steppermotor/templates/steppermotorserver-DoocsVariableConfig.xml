@@ -54,7 +54,6 @@
         <property name="AUTO_APPLY.ENABLE" source="/Motor${m}/controlInput/control/enableAutostart"/>
         <!-- Control - Calibration -->
         <property name="CALIBRATE" source="/Motor${m}/controlInput/control/calibrate"/>
-        <property name="DETERMINE_TOLERANCE" source="/Motor${m}/controlInput/control/determineTolerance"/>
         <!-- Control - Position Setpoint -->
         <property name="APPLIED_TARGET_POSITION" source="/Motor${m}/controlInput/positionSetpoint/position"/>
         <property name="RAW_APPLIED_TARGET_POSITION" source="/Motor${m}/controlInput/positionSetpoint/positionInSteps"/>
