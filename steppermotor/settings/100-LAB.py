@@ -11,7 +11,7 @@ if ACCELERATOR == "LAB":
         LINEAR_STAGE_CFG_FILE     = "2xNEMA_1.2A_200_480_16_32MHz_ES_defaults.xml"
 
         motor_cfg = MotorConfig()
-        motor_cfg.add_device('MotorDriver1', 'FMC20', SLOT_NUMBER, 'controller_pzt4_md22_md22', '6s45_r2261')
+        motor_cfg.add_device('MotorDriver1', 'FMC20', SLOT_NUMBER, 'controller_pzt4_md22_md22', '6s45_r2261_patched')
         motor_cfg.add_motor('ROTATIONAL.1', 'RotationalMotorWithCentreSwitch', 'MotorDriver1', 'MD22.0', 0, ROTATIONAL_STAGE_CFG_FILE, 'MD22', 0.0023, 1, 'deg')
         motor_cfg.add_motor('ROTATIONAL.2', 'RotationalMotorWithCentreSwitch', 'MotorDriver1', 'MD22.0', 1, ROTATIONAL_STAGE_CFG_FILE, 'MD22', 0.0023, 1, 'deg')
         motor_cfg.add_motor('LINEAR.1', 'LinearMotorWithReferenceSwitch', 'MotorDriver1', 'MD22.1', 0, LINEAR_STAGE_CFG_FILE, 'MD22', 0.5, 1, 'mm')
