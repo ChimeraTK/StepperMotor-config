@@ -9,5 +9,6 @@ xfelcpusynclammid1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.MID
 xfelcpusynclamsqs1.desy.de   D           XFEL             LAM.ACT.EXP/XHEXP1.SQS.EH
 
 # DESY Labs
-xfelcpusynclamdev1.desy.de   D           LAB              LAM.ACT/LAMDEV
+xfelcpusynclamdev1.desy.de   D           LAB              LAM.ACT/LAMDEV1
+mskcpusynclamdev2.desy.de    D           LAB              ODL/LAMDEV2
 mskcpusync26a2.desy.de       D           LAB              ODL/26A2

@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "clock": 32,
+  "activeLow": true,
+  "externalPower": false,
+  "cardOverrides": {},
+  "motors": [
+    {
+      "include": true,
+      "sameAsFirst": false,
+      "input": {
+        "steps": 400,
+        "microsteps": 16,
+        "rpm": 250,
+        "time": 0.5,
+        "current": 0.55,
+        "currentMode": "peak",
+        "rsense": 0.15,
+        "vsense": 1,
+        "negativeStop": true,
+        "positiveStop": true
+      },
+      "overrides": {}
+    },
+    {
+      "include": true,
+      "sameAsFirst": true,
+      "input": {
+        "steps": 200,
+        "microsteps": 16,
+        "rpm": 200,
+        "time": 0.5,
+        "current": 0.24,
+        "currentMode": "peak",
+        "rsense": 0.15,
+        "vsense": 1,
+        "negativeStop": true,
+        "positiveStop": true
+      },
+      "overrides": {
+        "chopperControlData": "0x18783"
+      }
+    }
+  ]
+}

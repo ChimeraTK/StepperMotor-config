@@ -3,19 +3,17 @@
   <MotorControlerConfig motorID="0">
     <Register name="dividersAndMicroStepResolutionData" value="0x5B04"/>
     <Register name="driverControlData" value="0x4"/>
-    <Register name="maximumAcceleration" value="0x6DF"/>
+    <Register name="maximumAcceleration" value="0x6DE"/>
     <Register name="maximumVelocity" value="0x68D"/>
-    <Register name="proportionalityFactorData" value="0xD007"/>
-    <Register name="referenceConfigAndRampModeData" value="0x300"/>
-    <Register name="stallGuardControlData" value="0x10014"/>
+    <Register name="proportionalityFactorData" value="0xDA07"/>
+    <Register name="stallGuardControlData" value="0x1000F"/>
   </MotorControlerConfig>
   <MotorControlerConfig motorID="1">
     <Register name="dividersAndMicroStepResolutionData" value="0x5B04"/>
     <Register name="driverControlData" value="0x4"/>
-    <Register name="maximumAcceleration" value="0x6DF"/>
+    <Register name="maximumAcceleration" value="0x6DE"/>
     <Register name="maximumVelocity" value="0x68D"/>
-    <Register name="proportionalityFactorData" value="0xD007"/>
-    <Register name="referenceConfigAndRampModeData" value="0x300"/>
-    <Register name="stallGuardControlData" value="0x10014"/>
+    <Register name="proportionalityFactorData" value="0xDA07"/>
+    <Register name="stallGuardControlData" value="0x1000F"/>
   </MotorControlerConfig>
 </MotorDriverCardConfig>
