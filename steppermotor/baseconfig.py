@@ -42,8 +42,6 @@ class FmcCarrier:
         self.name = device_name
         self.type = carrier_type.lower()
         self.slot = slot
-        # Hack to distinguish old firmware from new one
-        self.board = 'BOARD.0' if mapp_base.split('_')[0] == 'controller' else 'BSP'
         self.mapp_file = f'{mapp_base}_{self.type}_{mapp_version}.mapp'
 
 class Motor:
@@ -52,19 +50,17 @@ class Motor:
                  motor_name: str,
                  motor_type: str,
                  device: FmcCarrier,
-                 fmc_slot: str,
                  port_number: int,
                  config_file: str,
-                 fmc_type: str,
-                 motor_steps_ratio: float,
-                 encoder_steps_ratio: float,
-                 position_unit: str,
-                 is_dummy: bool):
+                 fmc_type: str = 'MD22',
+                 motor_steps_ratio: float = 1.0,
+                 encoder_steps_ratio: float = 1.0,
+                 position_unit: str = 'steps',
+                 is_dummy: bool = False):
         """Init-function of class Motor
         :param motor_name: Name to be used in PV to address the motor.
         :param motor_type: i.e.: 'LinearMotorWithReferenceSwitch'
         :param device: The FMC-carrier, the motor is connected to.
-        :param fmc_slot: Name used in the firmware to address the FMCs. In newer fw 'FMC1/2' in older fw 'MD22.0/1'.
         :param port_number: Number of the port on the FMC, the motor is connected to: 0: left/bottom, 1: right/top
         :param config_file: Path to MD22-configuration file.
         :param fmc_type: Type of FMC. Usually 'MD22'
@@ -76,7 +72,6 @@ class Motor:
         self.name = motor_name
         self.type = motor_type
         self.device = device
-        self.fmc_slot = fmc_slot
         self.port = port_number
         self.config_file = config_file
         self.fmc_type = fmc_type
@@ -131,7 +126,6 @@ class MotorConfig:
                   motor_name: str,
                   motor_type: str,
                   device: str,
-                  fmc_slot: str,
                   port_number: int,
                   config_file: str,
                   fmc_type: str = 'MD22',
@@ -143,7 +137,6 @@ class MotorConfig:
         :param motor_name: Name to be used in PV to address the motor. Needs to be unique.
         :param motor_type: i.e.: 'LinearMotorWithReferenceSwitch'
         :param device: The FMC-carrier, the motor is connected to. Has to be added by add_device(), before.
-        :param fmc_slot: Name used in the firmware to address the FMCs. In newer fw 'FMC1/2' in older fw 'MD22.0/1'.
         :param port_number: Number of the port on the FMC, the motor is connected to: 0: left/bottom, 1: right/top
         :param config_file: Path to MD22-configuration file.
         :param fmc_type: Type of FMC. Defaults to 'MD22'
@@ -162,7 +155,6 @@ class MotorConfig:
         self._motors[self.number_motors] = Motor(motor_name,
                                                  motor_type,
                                                  self.devices[device],
-                                                 fmc_slot,
                                                  port_number,
                                                  config_file,
                                                  fmc_type,

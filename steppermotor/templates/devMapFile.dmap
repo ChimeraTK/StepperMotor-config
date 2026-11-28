@@ -1,4 +1,11 @@
 ##mako
 % for device_name, device in motor_cfg.devices.items():
+CARRIER_BOARD     (pci:pcieunis${device.slot}?map=mapp/\
+    % if device.type == "fmc20":
+fmc20_6s45_default_1.2.0-0-g164208e6.mapp\
+    % elif device.type == "fmc25":
+fmc25_s6_default_1.0.1-0-g09b2a776.mapp\
+    % endif
+)
 ${device_name}    (pci:pcieunis${device.slot}?map=mapp/${device.mapp_file})
 % endfor

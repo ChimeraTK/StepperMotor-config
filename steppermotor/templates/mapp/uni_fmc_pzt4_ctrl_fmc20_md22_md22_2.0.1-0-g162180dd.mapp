@@ -1,4 +1,4 @@
-@MAPFILE_REVISION 2.0.0-2-g17258df0
+@MAPFILE_REVISION 2.0.1-0-g162180dd
 APP.ID                                                      1  0x00000000            4    1   32    0    0   RO
 ch1_top.APP                                             26854  0x00000000       107416    1   32    0    0   RW
 ch1_top.BSP                                            557056  0x00000000      2228224    1   32    0    0   RW

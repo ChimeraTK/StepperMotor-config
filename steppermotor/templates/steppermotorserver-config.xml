@@ -22,12 +22,12 @@
         </variable>
         <variable name="motorDriverCardName" type="string">
             % for motor_number, motor in  motor_cfg.motors.items():
-            <value i="${motor_number}"  v="${motor.device.board}"/>
+            <value i="${motor_number}"  v="BSP"/>
             % endfor
         </variable>
         <variable name="motorDriverModuleName" type="string">
             % for motor_number, motor in  motor_cfg.motors.items():
-            <value i="${motor_number}"  v="${motor.fmc_slot}"/>
+            <value i="${motor_number}"  v="FMC${motor.port + 1}"/>
             % endfor
         </variable>
         <variable name="motorDriverId" type="uint32">

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "clock": 32,
+  "activeLow": true,
+  "externalPower": false,
+  "cardOverrides": {},
+  "motors": [
+    {
+      "include": true,
+      "sameAsFirst": false,
+      "input": {
+        "steps": 320,
+        "microsteps": 8,
+        "rpm": 120,
+        "time": 0.5,
+        "current": 0.2,
+        "currentMode": "peak",
+        "rsense": 0.15,
+        "vsense": 1,
+        "negativeStop": false,
+        "positiveStop": false
+      },
+      "overrides": {}
+    },
+    {
+      "include": true,
+      "sameAsFirst": true,
+      "input": {
+        "steps": 200,
+        "microsteps": 16,
+        "rpm": 200,
+        "time": 0.5,
+        "current": 0.24,
+        "currentMode": "peak",
+        "rsense": 0.15,
+        "vsense": 1,
+        "negativeStop": true,
+        "positiveStop": true
+      },
+      "overrides": {}
+    }
+  ]
+}
